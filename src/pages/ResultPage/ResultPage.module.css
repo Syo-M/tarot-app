@@ -1,0 +1,47 @@
+.layout {
+  display: grid;
+  gap: 24px;
+}
+
+.summary {
+  display: grid;
+  gap: 12px;
+}
+
+.summaryCard {
+  display: grid;
+  gap: 8px;
+  border-radius: 20px;
+  padding: 16px;
+  background: rgba(11, 14, 27, 0.72);
+  border: 1px solid rgba(225, 194, 116, 0.12);
+}
+
+.summaryCard span {
+  color: var(--accent-soft);
+  font-size: 0.84rem;
+}
+
+.summaryCard strong {
+  line-height: 1.75;
+}
+
+.results {
+  display: grid;
+  gap: 18px;
+}
+
+.actions {
+  display: grid;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .summary {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

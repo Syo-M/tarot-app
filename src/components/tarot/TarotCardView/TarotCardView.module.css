@@ -1,0 +1,70 @@
+.wrapper,
+.largeWrapper {
+  display: grid;
+  place-items: center;
+}
+
+.card,
+.reversedCard {
+  width: 100%;
+  max-width: 210px;
+  aspect-ratio: 2 / 3.3;
+  border-radius: 20px;
+  border: 1px solid rgba(225, 194, 116, 0.4);
+  padding: 12px;
+  background:
+    radial-gradient(circle at top, rgba(225, 194, 116, 0.18), transparent 28%),
+    linear-gradient(160deg, rgba(34, 20, 66, 0.98), rgba(11, 16, 34, 0.98));
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+}
+
+.reversedCard {
+  transform: rotate(180deg);
+}
+
+.inner {
+  height: 100%;
+  border-radius: 16px;
+  border: 1px solid rgba(225, 194, 116, 0.2);
+  padding: 16px 12px;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+  background:
+    radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 42%),
+    linear-gradient(180deg, rgba(19, 25, 50, 0.85), rgba(12, 14, 28, 0.88));
+}
+
+.arcana {
+  color: var(--accent-soft);
+  font-size: 0.74rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.nameJa {
+  font-size: 1.1rem;
+}
+
+.nameEn {
+  color: var(--text-subtle);
+  font-size: 0.82rem;
+}
+
+.separator {
+  width: 40px;
+  height: 1px;
+  background: rgba(225, 194, 116, 0.42);
+}
+
+.rankLabel {
+  font-size: 0.85rem;
+  color: #fff3cd;
+}
+
+.largeWrapper .card,
+.largeWrapper .reversedCard {
+  max-width: 240px;
+}
