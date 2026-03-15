@@ -4,71 +4,82 @@ import { ScreenContainer } from '../../components/common/ScreenContainer/ScreenC
 import { AiAssistPanel } from '../../components/tarot/AiAssistPanel/AiAssistPanel';
 import { ResultCard } from '../../components/tarot/ResultCard/ResultCard';
 import { ResultSummary } from '../../components/tarot/ResultSummary/ResultSummary';
-import type { DrawnCard, ResultMode, SpreadType } from '../../types/tarot';
+import type { DeckType, DrawnCard, ResultMode, SpreadType } from '../../types/tarot';
 import { buildAiPrompt } from '../../utils/promptBuilder';
 import { buildReadingSummary } from '../../utils/readingSummary';
 import styles from './ResultPage.module.css';
 
 interface ResultPageProps {
-  spreadType: SpreadType;
-  drawnCards: DrawnCard[];
-  resultMode: ResultMode;
-  consultationTopic: string;
-  onRetry: () => void;
-  onBackHome: () => void;
+    spreadType: SpreadType;
+    deckType: DeckType;
+    drawnCards: DrawnCard[];
+    resultMode: ResultMode;
+    consultationTopic: string;
+    onRetry: () => void;
+    onBackHome: () => void;
 }
 
 export const ResultPage = ({
-  spreadType,
-  drawnCards,
-  resultMode,
-  consultationTopic,
-  onRetry,
-  onBackHome,
+    spreadType,
+    deckType,
+    drawnCards,
+    resultMode,
+    consultationTopic,
+    onRetry,
+    onBackHome,
 }: ResultPageProps) => {
-  const [isDetailOpen, setIsDetailOpen] = useState(resultMode === 'full');
+    const [isDetailOpen, setIsDetailOpen] = useState(resultMode === 'full');
 
-  const summary = useMemo(() => buildReadingSummary(drawnCards, spreadType), [drawnCards, spreadType]);
-  const prompt = useMemo(
-    () => buildAiPrompt({ spreadType, resultMode, drawnCards, summary, consultationTopic }),
-    [spreadType, resultMode, drawnCards, summary, consultationTopic],
-  );
+    const summary = useMemo(() => buildReadingSummary(drawnCards, spreadType), [drawnCards, spreadType]);
 
-  const detailLabel = isDetailOpen ? 'カードの詳細を閉じる' : 'カードの詳細を見る';
-  const isThreeCard = spreadType === 'three';
+    const prompt = useMemo(
+        () =>
+            buildAiPrompt({
+                spreadType,
+                deckType,
+                resultMode,
+                drawnCards,
+                summary,
+                consultationTopic,
+            }),
+        [spreadType, deckType, resultMode, drawnCards, summary, consultationTopic],
+    );
 
-  return (
-    <ScreenContainer
-      title="占い結果"
-      subtitle="まずは総合結果、そのあと必要に応じてカードの意味も確認できます。"
-      footer={
-        <div className={styles.footerButtons}>
-          <PrimaryButton fullWidth onClick={onRetry}>
-            もう一度占う
-          </PrimaryButton>
-          <PrimaryButton variant="secondary" fullWidth onClick={onBackHome}>
-            トップへ戻る
-          </PrimaryButton>
-        </div>
-      }
-    >
-      <ResultSummary summary={summary} resultMode={resultMode} />
+    const detailLabel = isDetailOpen ? 'カードの詳細を閉じる' : 'カードの詳細を見る';
+    const isThreeCard = spreadType === 'three';
 
-      <div className={styles.inlineActions}>
-        <PrimaryButton variant="secondary" fullWidth onClick={() => setIsDetailOpen((prevState) => !prevState)}>
-          {detailLabel}
-        </PrimaryButton>
-      </div>
+    return (
+        <ScreenContainer title="占い結果" subtitle="まずは全体の流れを見て、必要ならカードごとの意味も確認できます。">
+            <div className={styles.page}>
+                <ResultSummary summary={summary} resultMode={resultMode} />
 
-      {isDetailOpen ? (
-        <section className={`${styles.cardsSection} ${isThreeCard ? styles.threeCard : ''}`.trim()}>
-          {drawnCards.map((drawnCard) => (
-            <ResultCard key={`${drawnCard.position}-${drawnCard.card.id}`} drawnCard={drawnCard} />
-          ))}
-        </section>
-      ) : null}
+                <AiAssistPanel prompt={prompt} />
 
-      <AiAssistPanel prompt={prompt} />
-    </ScreenContainer>
-  );
+                <div className={styles.buttonRow}>
+                    <PrimaryButton onClick={onRetry}>もう一度占う</PrimaryButton>
+                    <PrimaryButton variant="secondary" onClick={onBackHome}>
+                        トップへ戻る
+                    </PrimaryButton>
+                </div>
+
+                <div className={styles.detailToggle}>
+                    <button
+                        type="button"
+                        className={styles.detailButton}
+                        onClick={() => setIsDetailOpen((prevState) => !prevState)}
+                    >
+                        {detailLabel}
+                    </button>
+                </div>
+
+                {isDetailOpen ? (
+                    <section className={isThreeCard ? styles.threeCardGrid : styles.cardList}>
+                        {drawnCards.map((drawnCard) => (
+                            <ResultCard key={`${drawnCard.card.id}-${drawnCard.position}`} drawnCard={drawnCard} />
+                        ))}
+                    </section>
+                ) : null}
+            </div>
+        </ScreenContainer>
+    );
 };

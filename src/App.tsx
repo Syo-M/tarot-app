@@ -41,6 +41,7 @@ const App = () => {
                 drawnCards={drawnCards}
                 resultMode={resultMode}
                 consultationTopic={consultationTopic}
+                onRetry={resetToHome}
                 onBackHome={resetToHome}
             />
         );

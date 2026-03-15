@@ -1,4 +1,4 @@
-import type { DeckType, DrawnCard, ResultMode, SpreadType, CardPosition } from '../types/tarot';
+import type { CardPosition, DeckType, DrawnCard, ResultMode, SpreadType } from '../types/tarot';
 
 const orientationLabelMap = {
     upright: '正位置',
