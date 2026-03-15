@@ -1,31 +1,28 @@
 import { useMemo, useState } from 'react';
 import { tarotCards } from '../data/tarotCards';
-import type { DeckMode, DrawnCard, ReadingState, ResultMode, SpreadType } from '../types/tarot';
-import { drawCards, filterCardsByDeckMode } from '../utils/drawCards';
+import type { DrawnCard, ReadingState, ResultMode, SpreadType } from '../types/tarot';
+import { drawCards } from '../utils/drawCards';
 
 const initialState: ReadingState = {
   screen: 'home',
   spreadType: 'single',
-  deckMode: 'major',
-  question: '',
   drawnCards: [],
   isShuffling: false,
   resultMode: 'full',
+  consultationTopic: '',
 };
 
 interface UseTarotReadingReturn {
   screen: ReadingState['screen'];
   spreadType: SpreadType;
-  deckMode: DeckMode;
-  question: string;
   drawnCards: DrawnCard[];
   isShuffling: boolean;
   resultMode: ResultMode;
+  consultationTopic: string;
   availableCardsCount: number;
   setSpreadType: (spreadType: SpreadType) => void;
-  setDeckMode: (deckMode: DeckMode) => void;
-  setQuestion: (question: string) => void;
   setResultMode: (resultMode: ResultMode) => void;
+  setConsultationTopic: (topic: string) => void;
   startReading: () => void;
   startQuickReading: () => void;
   finishShuffleAndReveal: () => void;
@@ -35,33 +32,25 @@ interface UseTarotReadingReturn {
 export const useTarotReading = (): UseTarotReadingReturn => {
   const [readingState, setReadingState] = useState<ReadingState>(initialState);
 
-  const availableCardsCount = useMemo(
-    () => filterCardsByDeckMode(tarotCards, readingState.deckMode).length,
-    [readingState.deckMode],
-  );
+  const availableCardsCount = useMemo(() => tarotCards.length, []);
 
   const setSpreadType = (spreadType: SpreadType): void => {
     setReadingState((prevState) => ({ ...prevState, spreadType }));
-  };
-
-  const setDeckMode = (deckMode: DeckMode): void => {
-    setReadingState((prevState) => ({ ...prevState, deckMode }));
-  };
-
-  const setQuestion = (question: string): void => {
-    setReadingState((prevState) => ({ ...prevState, question }));
   };
 
   const setResultMode = (resultMode: ResultMode): void => {
     setReadingState((prevState) => ({ ...prevState, resultMode }));
   };
 
-  const moveToShuffle = (spreadType: SpreadType, resultMode: ResultMode, deckMode: DeckMode): void => {
+  const setConsultationTopic = (consultationTopic: string): void => {
+    setReadingState((prevState) => ({ ...prevState, consultationTopic }));
+  };
+
+  const moveToShuffle = (spreadType: SpreadType, resultMode: ResultMode): void => {
     setReadingState((prevState) => ({
       ...prevState,
       spreadType,
       resultMode,
-      deckMode,
       screen: 'shuffle',
       isShuffling: true,
       drawnCards: [],
@@ -69,11 +58,13 @@ export const useTarotReading = (): UseTarotReadingReturn => {
   };
 
   const startReading = (): void => {
-    moveToShuffle(readingState.spreadType, readingState.resultMode, readingState.deckMode);
+    moveToShuffle(readingState.spreadType, readingState.resultMode);
   };
 
   const startQuickReading = (): void => {
-    moveToShuffle('single', 'summary', 'major');
+    const spreadCandidates: SpreadType[] = ['single', 'three'];
+    const randomSpreadType = spreadCandidates[Math.floor(Math.random() * spreadCandidates.length)];
+    moveToShuffle(randomSpreadType, 'summary');
   };
 
   const finishShuffleAndReveal = (): void => {
@@ -81,27 +72,25 @@ export const useTarotReading = (): UseTarotReadingReturn => {
       ...prevState,
       screen: 'result',
       isShuffling: false,
-      drawnCards: drawCards(tarotCards, prevState.spreadType, prevState.deckMode),
+      drawnCards: drawCards(tarotCards, prevState.spreadType),
     }));
   };
 
   const resetToHome = (): void => {
-    setReadingState((prevState) => ({ ...initialState, question: prevState.question }));
+    setReadingState(initialState);
   };
 
   return {
     screen: readingState.screen,
     spreadType: readingState.spreadType,
-    deckMode: readingState.deckMode,
-    question: readingState.question,
     drawnCards: readingState.drawnCards,
     isShuffling: readingState.isShuffling,
     resultMode: readingState.resultMode,
+    consultationTopic: readingState.consultationTopic,
     availableCardsCount,
     setSpreadType,
-    setDeckMode,
-    setQuestion,
     setResultMode,
+    setConsultationTopic,
     startReading,
     startQuickReading,
     finishShuffleAndReveal,

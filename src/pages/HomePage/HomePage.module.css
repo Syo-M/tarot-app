@@ -45,6 +45,22 @@
   gap: 18px;
 }
 
+.fieldLabel {
+  font-weight: 700;
+}
+
+.textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 12, 24, 0.72);
+  padding: 14px 16px;
+  color: var(--color-text);
+  line-height: 1.7;
+}
+
 .details {
   color: var(--color-text-muted);
 }
@@ -62,7 +78,7 @@
 
 @media (min-width: 720px) {
   .heroCard {
-    grid-template-columns: 1.15fr 0.85fr;
+    grid-template-columns: 1.2fr 0.8fr;
     align-items: center;
   }
 }

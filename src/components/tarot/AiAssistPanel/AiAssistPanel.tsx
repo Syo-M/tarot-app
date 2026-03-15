@@ -4,10 +4,9 @@ import styles from './AiAssistPanel.module.css';
 
 interface AiAssistPanelProps {
   prompt: string;
-  question: string;
 }
 
-export const AiAssistPanel = ({ prompt, question }: AiAssistPanelProps) => {
+export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
   const [copied, setCopied] = useState(false);
 
   const encodedPrompt = useMemo(() => encodeURIComponent(prompt), [prompt]);
@@ -24,35 +23,29 @@ export const AiAssistPanel = ({ prompt, question }: AiAssistPanelProps) => {
     }
   };
 
-  const handleGemini = async (): Promise<void> => {
-    await handleCopy();
-    window.open(geminiUrl, '_blank', 'noopener,noreferrer');
-  };
-
   return (
     <section className={styles.panel}>
       <div className={styles.header}>
         <h2>AIに相談する</h2>
-        <p>
-          {question.trim() ? `「${question.trim()}」` : '今回の結果'} をそのまま相談しやすいよう、コピーと外部AIへの導線だけを残しています。
-        </p>
+        <p>プロンプト本文は表示せず、そのままコピーや外部AIへの移動ができるようにしています。</p>
       </div>
 
       <div className={styles.actions}>
         <PrimaryButton type="button" onClick={handleCopy}>
           {copied ? 'コピーしました' : 'プロンプトをコピー'}
         </PrimaryButton>
-        <a className={styles.linkButton} href={chatgptUrl} target="_blank" rel="noreferrer" onClick={handleCopy}>
+        <a className={styles.linkButton} href={chatgptUrl} target="_blank" rel="noreferrer">
           ChatGPTで相談する
         </a>
-        <button className={styles.linkButtonSecondary} type="button" onClick={handleGemini}>
+        <a className={styles.linkButtonSecondary} href={geminiUrl} target="_blank" rel="noreferrer">
           Geminiで相談する
-        </button>
+        </a>
       </div>
 
-      <p className={styles.note}>
-        ChatGPTは入力済みURLが反映される場合があります。Geminiは安定した事前入力リンクがないため、コピー後に開く動線にしています。
-      </p>
+      <ul className={styles.notes}>
+        <li>ChatGPT は入力済みURLとして動く場合があります。</li>
+        <li>Gemini はコピー後の貼り付け利用を想定しています。</li>
+      </ul>
     </section>
   );
 };

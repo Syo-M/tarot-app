@@ -1,55 +1,67 @@
 import { PrimaryButton } from '../../components/common/PrimaryButton/PrimaryButton';
 import { ScreenContainer } from '../../components/common/ScreenContainer/ScreenContainer';
 import { SpreadSelector } from '../../components/tarot/SpreadSelector/SpreadSelector';
-import type { DeckMode, ResultMode, SpreadType } from '../../types/tarot';
+import type { ResultMode, SpreadType } from '../../types/tarot';
 import styles from './HomePage.module.css';
 
 interface HomePageProps {
   spreadType: SpreadType;
-  deckMode: DeckMode;
-  question: string;
   resultMode: ResultMode;
+  consultationTopic: string;
   availableCardsCount: number;
   onChangeSpreadType: (spreadType: SpreadType) => void;
-  onChangeDeckMode: (deckMode: DeckMode) => void;
-  onChangeQuestion: (question: string) => void;
   onChangeResultMode: (resultMode: ResultMode) => void;
+  onChangeConsultationTopic: (topic: string) => void;
   onStartReading: () => void;
   onStartQuickReading: () => void;
 }
 
 export const HomePage = ({
   spreadType,
-  deckMode,
-  question,
   resultMode,
+  consultationTopic,
   availableCardsCount,
   onChangeSpreadType,
-  onChangeDeckMode,
-  onChangeQuestion,
   onChangeResultMode,
+  onChangeConsultationTopic,
   onStartReading,
   onStartQuickReading,
 }: HomePageProps) => {
   return (
     <ScreenContainer
       title="気軽に占えるタロット"
-      subtitle="サクッと占う入口を残しつつ、1〜4枚引き・ケルト十字・大アルカナ/小アルカナ/複合も選べる形に戻しています。"
+      subtitle="先に相談内容を入れて、必要なら設定を選び、すぐに占える流れに整えました。"
     >
+      <section className={styles.panel}>
+        <div className={styles.panelHeader}>
+          <h2>占いたい内容</h2>
+          <p>恋愛・仕事・人間関係など、今みてほしいテーマを入れてください。AIに相談する時の文章にも反映されます。</p>
+        </div>
+        <label className={styles.fieldLabel} htmlFor="consultation-topic">
+          相談内容
+        </label>
+        <textarea
+          id="consultation-topic"
+          className={styles.textarea}
+          value={consultationTopic}
+          onChange={(event) => onChangeConsultationTopic(event.target.value)}
+          rows={3}
+          placeholder="例：仕事 / 恋愛 / 転職 / あの人の気持ち"
+        />
+      </section>
+
       <section className={styles.heroCard}>
         <div>
           <p className={styles.kicker}>今すぐ占う</p>
           <h2>迷ったらワンタップで。</h2>
           <p>
-            「気軽に占う」は大アルカナ1枚引き・結果だけ表示で始まります。設定を細かく選びたい場合は下のカスタマイズから進めてください。
+            「気軽に占う」は使用するカードと占い方法をランダムで選び、表示スタイルは「結果だけを見る」で始まります。
+            細かい設定をしなくても、すぐに占い結果へ進めます。
           </p>
         </div>
         <div className={styles.quickActions}>
           <PrimaryButton fullWidth onClick={onStartQuickReading}>
             気軽に占う
-          </PrimaryButton>
-          <PrimaryButton variant="secondary" fullWidth onClick={onStartReading}>
-            この設定で占う
           </PrimaryButton>
         </div>
       </section>
@@ -57,24 +69,19 @@ export const HomePage = ({
       <section className={styles.panel}>
         <div className={styles.panelHeader}>
           <h2>占いをカスタマイズ</h2>
-          <p>占いたい内容も入力でき、AI相談用の文章にも自動で反映されます。</p>
+          <p>収録カードは大アルカナ {availableCardsCount} 枚です。</p>
         </div>
 
         <SpreadSelector
           spreadType={spreadType}
-          deckMode={deckMode}
-          question={question}
           resultMode={resultMode}
-          availableCardsCount={availableCardsCount}
           onChangeSpreadType={onChangeSpreadType}
-          onChangeDeckMode={onChangeDeckMode}
-          onChangeQuestion={onChangeQuestion}
           onChangeResultMode={onChangeResultMode}
         />
 
         <div className={styles.bottomCta}>
           <PrimaryButton fullWidth onClick={onStartReading}>
-            占いを始める
+            この設定で占う
           </PrimaryButton>
         </div>
       </section>
@@ -82,7 +89,8 @@ export const HomePage = ({
       <details className={styles.details}>
         <summary>説明を見る</summary>
         <p>
-          1〜4枚引きとケルト十字から占い方法を選べます。大アルカナは大きなテーマ、小アルカナは日常的な動き、複合は両方を合わせて見たい時に向いています。
+          1枚引きは「今のテーマ」を見たい時に、3枚引きは「過去・現在・これから」の流れを見たい時に向いています。
+          専門的な読み解きよりも、まずは結果を受け取りやすい形を優先しています。
         </p>
       </details>
     </ScreenContainer>

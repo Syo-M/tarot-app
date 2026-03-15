@@ -4,31 +4,38 @@ import { ScreenContainer } from '../../components/common/ScreenContainer/ScreenC
 import { AiAssistPanel } from '../../components/tarot/AiAssistPanel/AiAssistPanel';
 import { ResultCard } from '../../components/tarot/ResultCard/ResultCard';
 import { ResultSummary } from '../../components/tarot/ResultSummary/ResultSummary';
-import type { DeckMode, DrawnCard, ResultMode, SpreadType } from '../../types/tarot';
+import type { DrawnCard, ResultMode, SpreadType } from '../../types/tarot';
 import { buildAiPrompt } from '../../utils/promptBuilder';
 import { buildReadingSummary } from '../../utils/readingSummary';
 import styles from './ResultPage.module.css';
 
 interface ResultPageProps {
   spreadType: SpreadType;
-  deckMode: DeckMode;
-  question: string;
   drawnCards: DrawnCard[];
   resultMode: ResultMode;
+  consultationTopic: string;
   onRetry: () => void;
   onBackHome: () => void;
 }
 
-export const ResultPage = ({ spreadType, deckMode, question, drawnCards, resultMode, onRetry, onBackHome }: ResultPageProps) => {
+export const ResultPage = ({
+  spreadType,
+  drawnCards,
+  resultMode,
+  consultationTopic,
+  onRetry,
+  onBackHome,
+}: ResultPageProps) => {
   const [isDetailOpen, setIsDetailOpen] = useState(resultMode === 'full');
 
   const summary = useMemo(() => buildReadingSummary(drawnCards, spreadType), [drawnCards, spreadType]);
   const prompt = useMemo(
-    () => buildAiPrompt({ spreadType, deckMode, question, resultMode, drawnCards, summary }),
-    [spreadType, deckMode, question, resultMode, drawnCards, summary],
+    () => buildAiPrompt({ spreadType, resultMode, drawnCards, summary, consultationTopic }),
+    [spreadType, resultMode, drawnCards, summary, consultationTopic],
   );
 
   const detailLabel = isDetailOpen ? 'カードの詳細を閉じる' : 'カードの詳細を見る';
+  const isThreeCard = spreadType === 'three';
 
   return (
     <ScreenContainer
@@ -54,14 +61,14 @@ export const ResultPage = ({ spreadType, deckMode, question, drawnCards, resultM
       </div>
 
       {isDetailOpen ? (
-        <section className={styles.cardsSection}>
+        <section className={`${styles.cardsSection} ${isThreeCard ? styles.threeCard : ''}`.trim()}>
           {drawnCards.map((drawnCard) => (
             <ResultCard key={`${drawnCard.position}-${drawnCard.card.id}`} drawnCard={drawnCard} />
           ))}
         </section>
       ) : null}
 
-      <AiAssistPanel prompt={prompt} question={question} />
+      <AiAssistPanel prompt={prompt} />
     </ScreenContainer>
   );
 };

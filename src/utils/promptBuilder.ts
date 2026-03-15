@@ -1,30 +1,35 @@
-import type { DeckMode, DrawnCard, ResultMode, SpreadType } from '../types/tarot';
-import { getPositionLabel, getSpreadLabel } from './readingSummary';
+import type { DrawnCard, ResultMode, SpreadType } from '../types/tarot';
 
 const orientationLabelMap = {
   upright: '正位置',
   reversed: '逆位置',
 } as const;
 
-const deckLabelMap: Record<DeckMode, string> = {
-  major: '大アルカナのみ',
-  minor: '小アルカナのみ',
-  mixed: '大アルカナ＋小アルカナ',
-};
+const spreadLabelMap = {
+  single: '1枚引き',
+  three: '3枚引き',
+} as const;
 
-const buildCardDetails = (drawnCards: DrawnCard[]): string => {
+const positionLabelMap = {
+  single: '今回のテーマ',
+  past: '過去',
+  present: '現在',
+  future: '未来',
+} as const;
+
+const buildCardSection = (drawnCards: DrawnCard[]): string => {
   return drawnCards
-    .map((drawnCard) => {
+    .map((drawnCard, index) => {
       const meaning = drawnCard.orientation === 'upright'
         ? drawnCard.card.uprightMeaning
         : drawnCard.card.reversedMeaning;
 
       return [
-        `- 位置: ${getPositionLabel(drawnCard.position)}`,
+        `### ${index + 1}. ${positionLabelMap[drawnCard.position]}`,
         `- カード名: ${drawnCard.card.nameJa} / ${drawnCard.card.nameEn}`,
         `- 向き: ${orientationLabelMap[drawnCard.orientation]}`,
-        `- 意味: ${meaning}`,
         `- キーワード: ${drawnCard.card.keywords.join(' / ')}`,
+        `- そのカード単体の意味: ${meaning}`,
       ].join('\n');
     })
     .join('\n\n');
@@ -32,46 +37,66 @@ const buildCardDetails = (drawnCards: DrawnCard[]): string => {
 
 export const buildAiPrompt = ({
   spreadType,
-  deckMode,
-  question,
   resultMode,
   drawnCards,
   summary,
+  consultationTopic,
 }: {
   spreadType: SpreadType;
-  deckMode: DeckMode;
-  question: string;
   resultMode: ResultMode;
   drawnCards: DrawnCard[];
   summary: string;
+  consultationTopic: string;
 }): string => {
-  const spreadLabel = getSpreadLabel(spreadType);
-  const topicText = question.trim() ? `相談テーマ: ${question.trim()}` : '相談テーマ: 特に未入力';
+  const consultation = consultationTopic.trim() || '特になし';
 
   if (resultMode === 'summary') {
     return [
-      '以下はタロット占いアプリの結果です。',
-      topicText,
-      `使用カード: ${deckLabelMap[deckMode]}`,
-      `占い方法: ${spreadLabel}`,
-      `総合結果: ${summary}`,
+      '# タロット総合鑑定の依頼',
       '',
-      'この占い結果をもとに、相談テーマに沿ってやさしく具体的にアドバイスをしてください。',
-      'カードごとの詳しい解説は不要で、全体の流れと実践しやすい助言を簡潔にまとめてください。',
+      'あなたは落ち着いた口調で、やさしく具体的に解釈するタロット占い師です。',
+      '以下の占い結果をもとに、相談内容に対して総合的に鑑定してください。',
+      '',
+      '## 相談内容',
+      consultation,
+      '',
+      '## 占い結果',
+      summary,
+      '',
+      '## 出力してほしい内容',
+      '1. 全体の総合評価',
+      '2.相談内容に対する具体的なアドバイス',
+      '3.直近で意識すると良い行動を3つ',
+      '4.カードの意味とカード同士のつながりの解説',
+      '5. 最後にまとめとどうすべきかのメッセージ',
+      '',
+      '※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でお願いします。',
     ].join('\n');
   }
 
   return [
-    '以下はタロット占いアプリの結果です。',
-    topicText,
-    `使用カード: ${deckLabelMap[deckMode]}`,
-    `占い方法: ${spreadLabel}`,
+    '# タロット総合鑑定の依頼',
     '',
-    'カード情報:',
-    buildCardDetails(drawnCards),
+    'あなたは落ち着いた口調で、やさしく具体的に解釈するタロット占い師です。',
+    '以下のスプレッド結果をもとに、カード同士の関係性を読み解きながら総合鑑定をしてください。',
     '',
-    `総合結果: ${summary}`,
+    '## 相談内容',
+    consultation,
     '',
-    'この結果をもとに、相談テーマに沿って、カード同士の関係も踏まえながら、やさしく具体的にアドバイスをしてください。',
+    '## スプレッド情報',
+    `- スプレッド: ${spreadLabelMap[spreadType]}`,
+    '- 使用デッキ: 大アルカナ（22枚）',
+    '',
+    '## 引いたカード',
+    buildCardSection(drawnCards),
+    '',
+    '## 出力してほしい内容',
+    '1. 全体の総合評価',
+    '2.相談内容に対する具体的なアドバイス',
+    '3.直近で意識すると良い行動を3つ',
+    '4.カードの意味とカード同士のつながりの解説',
+    '5. 最後にまとめとどうすべきかのメッセージ',
+    '',
+    '※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でお願いします。',
   ].join('\n');
 };
