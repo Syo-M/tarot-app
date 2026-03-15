@@ -1,73 +1,86 @@
 .wrapper {
   display: grid;
-  gap: 24px;
+  gap: 20px;
 }
 
-.block {
-  display: grid;
-  gap: 14px;
+.label {
+  margin: 0 0 10px;
+  color: var(--color-text-muted);
+  font-weight: 700;
 }
 
-.heading h2 {
-  margin: 0 0 6px;
-  font-size: 1.15rem;
+.rowHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 10px;
 }
 
-.heading p {
+.helper {
   margin: 0;
-  color: var(--text-subtle);
-  line-height: 1.7;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
 }
 
-.grid {
+.textarea {
+  width: 100%;
+  min-height: 108px;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(8, 7, 16, 0.64);
+  color: var(--color-text);
+  padding: 14px;
+  font: inherit;
+  line-height: 1.7;
+  resize: vertical;
+}
+
+.grid,
+.gridThree {
   display: grid;
   gap: 12px;
 }
 
-.card,
-.activeCard {
-  appearance: none;
-  border-radius: 22px;
-  padding: 16px;
-  text-align: left;
-  font: inherit;
-  cursor: pointer;
-  display: grid;
-  gap: 8px;
-  transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
-}
-
 .card {
-  background: rgba(14, 18, 34, 0.75);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-main);
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 16px;
+  color: inherit;
+  cursor: pointer;
+  transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
 }
 
-.activeCard {
-  background: rgba(34, 26, 63, 0.92);
-  border: 1px solid rgba(225, 194, 116, 0.5);
-  color: #fff7e3;
-  box-shadow: 0 12px 32px rgba(60, 36, 118, 0.22);
+.card strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 1rem;
 }
 
-.card:hover,
-.activeCard:hover {
-  transform: translateY(-1px);
-}
-
-.card span,
-.activeCard span {
-  color: var(--text-subtle);
+.card span {
+  color: var(--color-text-muted);
+  font-size: 0.92rem;
   line-height: 1.6;
 }
 
-.card small,
-.activeCard small {
-  color: var(--accent-soft);
+.card:hover {
+  transform: translateY(-1px);
 }
 
-@media (min-width: 768px) {
+.selected {
+  border-color: rgba(245, 189, 42, 0.5);
+  background: rgba(245, 189, 42, 0.14);
+}
+
+@media (min-width: 720px) {
   .grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .gridThree {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

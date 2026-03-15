@@ -7,18 +7,18 @@ const App = () => {
   const {
     screen,
     spreadType,
-    deckType,
+    deckMode,
     question,
     drawnCards,
-    isShuffling,
     availableCardsCount,
-    readingOptions,
+    resultMode,
     setSpreadType,
-    setDeckType,
+    setDeckMode,
     setQuestion,
+    setResultMode,
     startReading,
+    startQuickReading,
     finishShuffleAndReveal,
-    redrawReading,
     resetToHome,
   } = useTarotReading();
 
@@ -26,7 +26,8 @@ const App = () => {
     return (
       <ShufflePage
         spreadType={spreadType}
-        isShuffling={isShuffling}
+        deckMode={deckMode}
+        resultMode={resultMode}
         onComplete={finishShuffleAndReveal}
       />
     );
@@ -35,10 +36,13 @@ const App = () => {
   if (screen === 'result') {
     return (
       <ResultPage
-        readingOptions={readingOptions}
+        spreadType={spreadType}
+        deckMode={deckMode}
+        question={question}
         drawnCards={drawnCards}
-        onRedraw={redrawReading}
-        onReset={resetToHome}
+        resultMode={resultMode}
+        onRetry={startReading}
+        onBackHome={resetToHome}
       />
     );
   }
@@ -46,13 +50,16 @@ const App = () => {
   return (
     <HomePage
       spreadType={spreadType}
-      deckType={deckType}
+      deckMode={deckMode}
       question={question}
+      resultMode={resultMode}
       availableCardsCount={availableCardsCount}
-      onSpreadChange={setSpreadType}
-      onDeckChange={setDeckType}
-      onQuestionChange={setQuestion}
-      onStart={startReading}
+      onChangeSpreadType={setSpreadType}
+      onChangeDeckMode={setDeckMode}
+      onChangeQuestion={setQuestion}
+      onChangeResultMode={setResultMode}
+      onStartReading={startReading}
+      onStartQuickReading={startQuickReading}
     />
   );
 };

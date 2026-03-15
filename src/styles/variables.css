@@ -1,10 +1,9 @@
 :root {
-  --bg-start: #080913;
-  --bg-end: #131a31;
-  --panel: #101426;
-  --panel-soft: #151a32;
-  --text-main: #f7f8ff;
-  --text-subtle: #b7bfdc;
-  --accent: #e1c274;
-  --accent-soft: #f2ddb0;
+  --color-bg: #0f0b16;
+  --color-surface: #1a1525;
+  --color-text: #f6f2ff;
+  --color-text-muted: #c3bad9;
+  --color-accent: #f5bd2a;
+  --color-accent-soft: #f7d67b;
+  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.24);
 }

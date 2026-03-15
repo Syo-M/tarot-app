@@ -1,45 +1,30 @@
-import { SPREADS } from '../constants/spreads';
-import { getCardsByDeck } from '../data/tarotCards';
-import type {
-  CardOrientation,
-  DeckType,
-  DrawnCard,
-  ReadingOptions,
-  SpreadType,
-} from '../types/tarot';
-import { pickUniqueItems } from './random';
+import type { CardOrientation, CardPosition, DeckMode, DrawnCard, SpreadType, TarotCard } from '../types/tarot';
+import { shuffleCards } from './shuffleCards';
 
-const randomOrientation = (): CardOrientation =>
-  Math.random() > 0.5 ? 'upright' : 'reversed';
-
-export const drawCards = ({
-  spreadType,
-  deckType,
-}: Pick<ReadingOptions, 'spreadType' | 'deckType'>): DrawnCard[] => {
-  const spread = SPREADS.find((item) => item.key === spreadType);
-
-  if (!spread) {
-    return [];
-  }
-
-  const deck = getCardsByDeck(deckType);
-
-  if (deck.length < spread.drawCount) {
-    throw new Error(`Deck is too small for spread: ${spreadType}`);
-  }
-
-  const selectedCards = pickUniqueItems(deck, spread.drawCount);
-
-  return selectedCards.map((card, index) => ({
-    card,
-    orientation: randomOrientation(),
-    position: spread.positions[index].key,
-    label: spread.positions[index].label,
-  }));
+const spreadPositions: Record<SpreadType, CardPosition[]> = {
+  single: ['single'],
+  two: ['first', 'second'],
+  three: ['past', 'present', 'future'],
+  four: ['first', 'second', 'third', 'fourth'] as CardPosition[],
+  celticCross: ['situation', 'challenge', 'conscious', 'subconscious', 'pastFoundation', 'nearFuture', 'self', 'environment', 'hopesFears', 'outcome'],
 };
 
-export const getAvailableCardsCount = (deckType: DeckType): number =>
-  getCardsByDeck(deckType).length;
+const getRandomOrientation = (): CardOrientation => (Math.random() > 0.5 ? 'upright' : 'reversed');
 
-export const getRequiredDrawCount = (spreadType: SpreadType): number =>
-  SPREADS.find((item) => item.key === spreadType)?.drawCount ?? 0;
+export const filterCardsByDeckMode = (cards: TarotCard[], deckMode: DeckMode): TarotCard[] => {
+  if (deckMode === 'major') return cards.filter((card) => card.arcana === 'major');
+  if (deckMode === 'minor') return cards.filter((card) => card.arcana === 'minor');
+  return cards;
+};
+
+export const drawCards = (cards: TarotCard[], spreadType: SpreadType, deckMode: DeckMode): DrawnCard[] => {
+  const pool = filterCardsByDeckMode(cards, deckMode);
+  const positions = spreadPositions[spreadType];
+  const shuffledCards = shuffleCards(pool).slice(0, positions.length);
+
+  return shuffledCards.map((card, index) => ({
+    card,
+    orientation: getRandomOrientation(),
+    position: positions[index],
+  }));
+};

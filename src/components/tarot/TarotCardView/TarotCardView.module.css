@@ -1,70 +1,49 @@
-.wrapper,
-.largeWrapper {
-  display: grid;
-  place-items: center;
+.card {
+  width: min(100%, 220px);
+  margin: 0 auto;
+  transition: transform 0.28s ease;
 }
 
-.card,
-.reversedCard {
-  width: 100%;
-  max-width: 210px;
-  aspect-ratio: 2 / 3.3;
-  border-radius: 20px;
-  border: 1px solid rgba(225, 194, 116, 0.4);
-  padding: 12px;
-  background:
-    radial-gradient(circle at top, rgba(225, 194, 116, 0.18), transparent 28%),
-    linear-gradient(160deg, rgba(34, 20, 66, 0.98), rgba(11, 16, 34, 0.98));
-  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-}
-
-.reversedCard {
+.reversed {
   transform: rotate(180deg);
 }
 
-.inner {
-  height: 100%;
-  border-radius: 16px;
-  border: 1px solid rgba(225, 194, 116, 0.2);
-  padding: 16px 12px;
-  display: grid;
-  align-content: center;
-  justify-items: center;
-  text-align: center;
-  gap: 10px;
+.art {
+  aspect-ratio: 2 / 3;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   background:
-    radial-gradient(circle at center, rgba(255, 255, 255, 0.05), transparent 42%),
-    linear-gradient(180deg, rgba(19, 25, 50, 0.85), rgba(12, 14, 28, 0.88));
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.18), transparent 35%),
+    linear-gradient(180deg, rgba(111, 88, 194, 0.95), rgba(18, 14, 31, 0.98));
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  text-align: center;
 }
 
-.arcana {
-  color: var(--accent-soft);
-  font-size: 0.74rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.nameJa {
-  font-size: 1.1rem;
+.moon {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 3rem;
+  color: rgba(255, 238, 182, 0.9);
 }
 
 .nameEn {
-  color: var(--text-subtle);
-  font-size: 0.82rem;
+  color: #f3edff;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
 }
 
-.separator {
-  width: 40px;
-  height: 1px;
-  background: rgba(225, 194, 116, 0.42);
+.caption {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  text-align: center;
 }
 
-.rankLabel {
-  font-size: 0.85rem;
-  color: #fff3cd;
-}
-
-.largeWrapper .card,
-.largeWrapper .reversedCard {
-  max-width: 240px;
+.caption span {
+  color: var(--color-text-muted);
+  font-size: 0.88rem;
 }

@@ -1,93 +1,55 @@
-export type SpreadType = 'single' | 'two' | 'three' | 'four' | 'celtic-cross';
-export type DeckType = 'major' | 'minor' | 'mixed';
-export type Suit = 'wands' | 'cups' | 'swords' | 'pentacles' | 'major';
-export type ArcanaType = 'major' | 'minor';
+export type SpreadType = 'single' | 'two' | 'three' | 'four' | 'celticCross';
 export type CardOrientation = 'upright' | 'reversed';
 export type AppScreen = 'home' | 'shuffle' | 'result';
-
+export type ResultMode = 'full' | 'summary';
+export type DeckMode = 'major' | 'minor' | 'mixed';
+export type ArcanaType = 'major' | 'minor';
+export type CardSuit = 'wands' | 'cups' | 'swords' | 'pentacles';
 export type CardPosition =
   | 'single'
-  | 'option-a'
-  | 'option-b'
+  | 'first'
+  | 'second'
+  | 'third'
+  | 'fourth'
   | 'past'
   | 'present'
   | 'future'
   | 'situation'
   | 'challenge'
-  | 'advice'
-  | 'outcome'
+  | 'conscious'
+  | 'subconscious'
+  | 'pastFoundation'
+  | 'nearFuture'
   | 'self'
   | 'environment'
-  | 'hopes-fears'
-  | 'final-outcome'
-  | 'foundation'
-  | 'recent-past'
-  | 'near-future';
+  | 'hopesFears'
+  | 'outcome';
 
 export interface TarotCard {
-  id: string;
-  arcana: ArcanaType;
-  suit: Suit;
-  rank: string;
-  number: number;
+  id: number;
   nameJa: string;
   nameEn: string;
   image: string;
   uprightMeaning: string;
   reversedMeaning: string;
   keywords: string[];
+  arcana: ArcanaType;
+  suit?: CardSuit;
+  rank?: string;
 }
 
 export interface DrawnCard {
   card: TarotCard;
   orientation: CardOrientation;
   position: CardPosition;
-  label: string;
-}
-
-export interface ReadingOptions {
-  spreadType: SpreadType;
-  deckType: DeckType;
-  question: string;
 }
 
 export interface ReadingState {
   screen: AppScreen;
   spreadType: SpreadType;
-  deckType: DeckType;
+  deckMode: DeckMode;
   question: string;
   drawnCards: DrawnCard[];
   isShuffling: boolean;
-}
-
-export interface SpreadDefinition {
-  key: SpreadType;
-  name: string;
-  description: string;
-  drawCount: number;
-  positions: Array<{
-    key: CardPosition;
-    label: string;
-    hint: string;
-  }>;
-}
-
-export interface DeckDefinition {
-  key: DeckType;
-  name: string;
-  description: string;
-}
-
-export interface AiPromptPayload {
-  question: string;
-  spreadName: string;
-  deckName: string;
-  cards: Array<{
-    position: string;
-    nameJa: string;
-    nameEn: string;
-    orientation: string;
-    keywords: string[];
-    meaning: string;
-  }>;
+  resultMode: ResultMode;
 }

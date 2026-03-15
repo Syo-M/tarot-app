@@ -1,67 +1,67 @@
-import { AiPromptPanel } from '../../components/tarot/AiPromptPanel/AiPromptPanel';
+import { useMemo, useState } from 'react';
 import { PrimaryButton } from '../../components/common/PrimaryButton/PrimaryButton';
 import { ScreenContainer } from '../../components/common/ScreenContainer/ScreenContainer';
+import { AiAssistPanel } from '../../components/tarot/AiAssistPanel/AiAssistPanel';
 import { ResultCard } from '../../components/tarot/ResultCard/ResultCard';
-import { DECKS, SPREADS } from '../../constants/spreads';
-import type { DrawnCard, ReadingOptions } from '../../types/tarot';
+import { ResultSummary } from '../../components/tarot/ResultSummary/ResultSummary';
+import type { DeckMode, DrawnCard, ResultMode, SpreadType } from '../../types/tarot';
+import { buildAiPrompt } from '../../utils/promptBuilder';
+import { buildReadingSummary } from '../../utils/readingSummary';
 import styles from './ResultPage.module.css';
 
 interface ResultPageProps {
-  readingOptions: ReadingOptions;
+  spreadType: SpreadType;
+  deckMode: DeckMode;
+  question: string;
   drawnCards: DrawnCard[];
-  onRedraw: () => void;
-  onReset: () => void;
+  resultMode: ResultMode;
+  onRetry: () => void;
+  onBackHome: () => void;
 }
 
-export const ResultPage = ({
-  readingOptions,
-  drawnCards,
-  onRedraw,
-  onReset,
-}: ResultPageProps) => {
-  const spread = SPREADS.find((item) => item.key === readingOptions.spreadType);
-  const deck = DECKS.find((item) => item.key === readingOptions.deckType);
+export const ResultPage = ({ spreadType, deckMode, question, drawnCards, resultMode, onRetry, onBackHome }: ResultPageProps) => {
+  const [isDetailOpen, setIsDetailOpen] = useState(resultMode === 'full');
+
+  const summary = useMemo(() => buildReadingSummary(drawnCards, spreadType), [drawnCards, spreadType]);
+  const prompt = useMemo(
+    () => buildAiPrompt({ spreadType, deckMode, question, resultMode, drawnCards, summary }),
+    [spreadType, deckMode, question, resultMode, drawnCards, summary],
+  );
+
+  const detailLabel = isDetailOpen ? 'カードの詳細を閉じる' : 'カードの詳細を見る';
 
   return (
     <ScreenContainer
-      title="Reading Result"
-      description={`${spread?.name ?? ''} / ${deck?.name ?? ''} の結果です。カードごとの意味と、AI用の総合鑑定テキストを確認できます。`}
-    >
-      <div className={styles.layout}>
-        <section className={styles.summary}>
-          <div className={styles.summaryCard}>
-            <span>スプレッド</span>
-            <strong>{spread?.name}</strong>
-          </div>
-          <div className={styles.summaryCard}>
-            <span>デッキ</span>
-            <strong>{deck?.name}</strong>
-          </div>
-          <div className={styles.summaryCard}>
-            <span>相談内容</span>
-            <strong>
-              {readingOptions.question.trim().length > 0
-                ? readingOptions.question.trim()
-                : '未入力（現在の流れの総合鑑定）'}
-            </strong>
-          </div>
-        </section>
-
-        <section className={styles.results}>
-          {drawnCards.map((drawnCard) => (
-            <ResultCard key={`${drawnCard.card.id}-${drawnCard.position}`} drawnCard={drawnCard} />
-          ))}
-        </section>
-
-        <AiPromptPanel options={readingOptions} drawnCards={drawnCards} />
-
-        <div className={styles.actions}>
-          <PrimaryButton onClick={onRedraw}>もう一度占う</PrimaryButton>
-          <PrimaryButton variant="secondary" onClick={onReset}>
+      title="占い結果"
+      subtitle="まずは総合結果、そのあと必要に応じてカードの意味も確認できます。"
+      footer={
+        <div className={styles.footerButtons}>
+          <PrimaryButton fullWidth onClick={onRetry}>
+            もう一度占う
+          </PrimaryButton>
+          <PrimaryButton variant="secondary" fullWidth onClick={onBackHome}>
             トップへ戻る
           </PrimaryButton>
         </div>
+      }
+    >
+      <ResultSummary summary={summary} resultMode={resultMode} />
+
+      <div className={styles.inlineActions}>
+        <PrimaryButton variant="secondary" fullWidth onClick={() => setIsDetailOpen((prevState) => !prevState)}>
+          {detailLabel}
+        </PrimaryButton>
       </div>
+
+      {isDetailOpen ? (
+        <section className={styles.cardsSection}>
+          {drawnCards.map((drawnCard) => (
+            <ResultCard key={`${drawnCard.position}-${drawnCard.card.id}`} drawnCard={drawnCard} />
+          ))}
+        </section>
+      ) : null}
+
+      <AiAssistPanel prompt={prompt} question={question} />
     </ScreenContainer>
   );
 };

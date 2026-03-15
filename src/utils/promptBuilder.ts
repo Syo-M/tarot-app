@@ -1,75 +1,77 @@
-import { DECKS, SPREADS } from '../constants/spreads';
-import type { AiPromptPayload, DrawnCard, ReadingOptions } from '../types/tarot';
+import type { DeckMode, DrawnCard, ResultMode, SpreadType } from '../types/tarot';
+import { getPositionLabel, getSpreadLabel } from './readingSummary';
 
-const orientationMap = {
+const orientationLabelMap = {
   upright: '正位置',
   reversed: '逆位置',
 } as const;
 
-export const buildAiPromptPayload = (
-  options: ReadingOptions,
-  drawnCards: DrawnCard[],
-): AiPromptPayload => {
-  const spreadName = SPREADS.find((item) => item.key === options.spreadType)?.name ?? options.spreadType;
-  const deckName = DECKS.find((item) => item.key === options.deckType)?.name ?? options.deckType;
-
-  return {
-    question: options.question,
-    spreadName,
-    deckName,
-    cards: drawnCards.map((drawnCard) => ({
-      position: drawnCard.label,
-      nameJa: drawnCard.card.nameJa,
-      nameEn: drawnCard.card.nameEn,
-      orientation: orientationMap[drawnCard.orientation],
-      keywords: drawnCard.card.keywords,
-      meaning:
-        drawnCard.orientation === 'upright'
-          ? drawnCard.card.uprightMeaning
-          : drawnCard.card.reversedMeaning,
-    })),
-  };
+const deckLabelMap: Record<DeckMode, string> = {
+  major: '大アルカナのみ',
+  minor: '小アルカナのみ',
+  mixed: '大アルカナ＋小アルカナ',
 };
 
-export const buildAiPromptMarkdown = (
-  options: ReadingOptions,
-  drawnCards: DrawnCard[],
-): string => {
-  const payload = buildAiPromptPayload(options, drawnCards);
+const buildCardDetails = (drawnCards: DrawnCard[]): string => {
+  return drawnCards
+    .map((drawnCard) => {
+      const meaning = drawnCard.orientation === 'upright'
+        ? drawnCard.card.uprightMeaning
+        : drawnCard.card.reversedMeaning;
 
-  const cardLines = payload.cards
-    .map(
-      (card, index) => `### ${index + 1}. ${card.position}
-- カード名: ${card.nameJa} / ${card.nameEn}
-- 向き: ${card.orientation}
-- キーワード: ${card.keywords.join(' / ')}
-- そのカード単体の意味: ${card.meaning}`,
-    )
+      return [
+        `- 位置: ${getPositionLabel(drawnCard.position)}`,
+        `- カード名: ${drawnCard.card.nameJa} / ${drawnCard.card.nameEn}`,
+        `- 向き: ${orientationLabelMap[drawnCard.orientation]}`,
+        `- 意味: ${meaning}`,
+        `- キーワード: ${drawnCard.card.keywords.join(' / ')}`,
+      ].join('\n');
+    })
     .join('\n\n');
+};
 
-  const questionLine = payload.question.trim().length > 0 ? payload.question.trim() : '特に質問は入力していません。現在の流れの総合鑑定をお願いします。';
+export const buildAiPrompt = ({
+  spreadType,
+  deckMode,
+  question,
+  resultMode,
+  drawnCards,
+  summary,
+}: {
+  spreadType: SpreadType;
+  deckMode: DeckMode;
+  question: string;
+  resultMode: ResultMode;
+  drawnCards: DrawnCard[];
+  summary: string;
+}): string => {
+  const spreadLabel = getSpreadLabel(spreadType);
+  const topicText = question.trim() ? `相談テーマ: ${question.trim()}` : '相談テーマ: 特に未入力';
 
-  return `# タロット総合鑑定の依頼
+  if (resultMode === 'summary') {
+    return [
+      '以下はタロット占いアプリの結果です。',
+      topicText,
+      `使用カード: ${deckLabelMap[deckMode]}`,
+      `占い方法: ${spreadLabel}`,
+      `総合結果: ${summary}`,
+      '',
+      'この占い結果をもとに、相談テーマに沿ってやさしく具体的にアドバイスをしてください。',
+      'カードごとの詳しい解説は不要で、全体の流れと実践しやすい助言を簡潔にまとめてください。',
+    ].join('\n');
+  }
 
-あなたは落ち着いた口調で、やさしく具体的に解釈するタロット占い師です。
-以下のスプレッド結果をもとに、カード同士の関係性を読み解きながら総合鑑定をしてください。
-
-## 相談内容
-${questionLine}
-
-## スプレッド情報
-- スプレッド: ${payload.spreadName}
-- 使用デッキ: ${payload.deckName}
-
-## 引いたカード
-${cardLines}
-
-## 出力してほしい内容
-1. 全体の総合評価
-2. カード同士のつながりの解説
-3. 相談内容に対する具体的なアドバイス
-4. 直近で意識すると良い行動を3つ
-5. 最後に一言のやさしいメッセージ
-
-※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でお願いします。`;
+  return [
+    '以下はタロット占いアプリの結果です。',
+    topicText,
+    `使用カード: ${deckLabelMap[deckMode]}`,
+    `占い方法: ${spreadLabel}`,
+    '',
+    'カード情報:',
+    buildCardDetails(drawnCards),
+    '',
+    `総合結果: ${summary}`,
+    '',
+    'この結果をもとに、相談テーマに沿って、カード同士の関係も踏まえながら、やさしく具体的にアドバイスをしてください。',
+  ].join('\n');
 };
