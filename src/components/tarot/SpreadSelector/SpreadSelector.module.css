@@ -5,82 +5,47 @@
 
 .label {
   margin: 0 0 10px;
-  color: var(--color-text-muted);
+  font-size: 0.95rem;
   font-weight: 700;
 }
 
-.rowHeader {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: baseline;
-  margin-bottom: 10px;
-}
-
-.helper {
-  margin: 0;
-  font-size: 0.9rem;
-  color: var(--color-text-muted);
-}
-
-.textarea {
-  width: 100%;
-  min-height: 108px;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(8, 7, 16, 0.64);
-  color: var(--color-text);
-  padding: 14px;
-  font: inherit;
-  line-height: 1.7;
-  resize: vertical;
-}
-
-.grid,
-.gridThree {
+.grid {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 12px;
 }
 
 .card {
-  width: 100%;
+  appearance: none;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  background: rgba(12, 12, 24, 0.72);
+  color: var(--color-text);
+  padding: 14px;
   text-align: left;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.05);
-  padding: 16px;
-  color: inherit;
   cursor: pointer;
-  transition: border-color 0.18s ease, background-color 0.18s ease, transform 0.18s ease;
-}
-
-.card strong {
-  display: block;
-  margin-bottom: 6px;
-  font-size: 1rem;
-}
-
-.card span {
-  color: var(--color-text-muted);
-  font-size: 0.92rem;
-  line-height: 1.6;
+  display: grid;
+  gap: 6px;
+  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
 }
 
 .card:hover {
   transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.24);
+}
+
+.card strong {
+  font-size: 0.98rem;
+}
+
+.card span {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
 .selected {
-  border-color: rgba(245, 189, 42, 0.5);
-  background: rgba(245, 189, 42, 0.14);
-}
-
-@media (min-width: 720px) {
-  .grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .gridThree {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  border-color: rgba(255, 214, 102, 0.9);
+  background: rgba(255, 214, 102, 0.12);
+  box-shadow: 0 0 0 1px rgba(255, 214, 102, 0.35) inset;
 }

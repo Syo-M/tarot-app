@@ -1,6 +1,5 @@
 .heroCard,
-.panel,
-.details {
+.panel {
   border-radius: 28px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.05);
@@ -59,21 +58,6 @@
   padding: 14px 16px;
   color: var(--color-text);
   line-height: 1.7;
-}
-
-.details {
-  color: var(--color-text-muted);
-}
-
-.details summary {
-  cursor: pointer;
-  font-weight: 700;
-  color: var(--color-text);
-}
-
-.details p {
-  margin: 12px 0 0;
-  line-height: 1.8;
 }
 
 @media (min-width: 720px) {

@@ -7,11 +7,13 @@ const App = () => {
   const {
     screen,
     spreadType,
+    deckType,
     drawnCards,
     availableCardsCount,
     resultMode,
     consultationTopic,
     setSpreadType,
+    setDeckType,
     setResultMode,
     setConsultationTopic,
     startReading,
@@ -40,10 +42,12 @@ const App = () => {
   return (
     <HomePage
       spreadType={spreadType}
+      deckType={deckType}
       resultMode={resultMode}
       consultationTopic={consultationTopic}
       availableCardsCount={availableCardsCount}
       onChangeSpreadType={setSpreadType}
+      onChangeDeckType={setDeckType}
       onChangeResultMode={setResultMode}
       onChangeConsultationTopic={setConsultationTopic}
       onStartReading={startReading}
