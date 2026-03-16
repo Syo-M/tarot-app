@@ -1,4 +1,3 @@
-import { useMemo, useState } from 'react';
 import { PrimaryButton } from '../../common/PrimaryButton/PrimaryButton';
 import styles from './AiAssistPanel.module.css';
 
@@ -6,46 +5,51 @@ interface AiAssistPanelProps {
   prompt: string;
 }
 
+const CHATGPT_BASE_URL = 'https://chatgpt.com/';
+const GEMINI_BASE_URL = 'https://gemini.google.com/';
+
 export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
-  const [copied, setCopied] = useState(false);
+  const encodedPrompt = encodeURIComponent(prompt);
 
-  const encodedPrompt = useMemo(() => encodeURIComponent(prompt), [prompt]);
-  const chatgptUrl = useMemo(() => `https://chatgpt.com/?q=${encodedPrompt}`, [encodedPrompt]);
-  const geminiUrl = useMemo(() => 'https://gemini.google.com/app', []);
+  const chatgptUrl = `${CHATGPT_BASE_URL}?q=${encodedPrompt}`;
+  const geminiUrl = `${GEMINI_BASE_URL}?q=${encodedPrompt}`;
 
-  const handleCopy = async (): Promise<void> => {
+  const handleCopyPrompt = async () => {
     try {
       await navigator.clipboard.writeText(prompt);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
-    } catch {
-      setCopied(false);
+      window.alert('プロンプトをコピーしました。');
+    } catch (error) {
+      console.error(error);
+      window.alert('コピーに失敗しました。');
     }
   };
 
   return (
     <section className={styles.panel}>
       <div className={styles.header}>
-        <h2>AIに相談する</h2>
-        <p>プロンプト本文は表示せず、そのままコピーや外部AIへの移動ができるようにしています。</p>
+        <h2 className={styles.title}>AIで相談する</h2>
+        <p className={styles.description}>そのままAIへ渡せます。</p>
       </div>
 
-      <div className={styles.actions}>
-        <PrimaryButton type="button" onClick={handleCopy}>
-          {copied ? 'コピーしました' : 'プロンプトをコピー'}
-        </PrimaryButton>
-        <a className={styles.linkButton} href={chatgptUrl} target="_blank" rel="noreferrer">
+      <div className={styles.buttonRow}>
+        <PrimaryButton onClick={handleCopyPrompt}>プロンプトをコピー</PrimaryButton>
+        <a
+          className={styles.linkButton}
+          href={chatgptUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
           ChatGPTで相談する
         </a>
-        <a className={styles.linkButtonSecondary} href={geminiUrl} target="_blank" rel="noreferrer">
+        <a
+          className={styles.linkButton}
+          href={geminiUrl}
+          target="_blank"
+          rel="noreferrer"
+        >
           Geminiで相談する
         </a>
       </div>
-
-      <ul className={styles.notes}>
-        <li>ChatGPT は入力済みURLとして動く場合があります。</li>
-        <li>Gemini はコピー後の貼り付け利用を想定しています。</li>
-      </ul>
     </section>
   );
 };
