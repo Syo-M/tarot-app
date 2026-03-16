@@ -58,6 +58,14 @@ const buildCompactCardSection = (drawnCards: DrawnCard[]): string => {
     .join('\n\n');
 };
 
+const buildSummaryCardList = (drawnCards: DrawnCard[]): string => {
+  return drawnCards
+    .map((drawnCard, index) => {
+      return `- ${index + 1}. ${positionLabelMap[drawnCard.position]} / ${drawnCard.card.nameJa} / ${orientationLabelMap[drawnCard.orientation]}`;
+    })
+    .join('\n');
+};
+
 export const buildAiPrompt = ({
   spreadType,
   deckType,
@@ -85,10 +93,12 @@ export const buildAiPrompt = ({
       '## 相談内容',
       consultation,
       '',
-      '## 占い結果',
-      summary,
+      '## スプレッド情報',
+      `- スプレッド: ${spreadLabelMap[spreadType]}`,
+      `- 使用デッキ: ${deckLabelMap[deckType]}`,
       '',
-      '※ 「結果だけを見る」モードなので、カードごとの細かな解説やカード同士のつながりの詳しい説明は省略し、全体結果と実践的なアドバイスを中心にまとめてください。',
+      '## 占い結果',
+      buildSummaryCardList(drawnCards),
       '',
       '## 出力してほしい内容',
       '1. 全体の総合評価',
@@ -97,7 +107,7 @@ export const buildAiPrompt = ({
       '4.まとめとして、相談者がどうすべきかのメッセージ',
       '5. カードの意味とカード同士のつながりの解説は省略、または必要最小限にしてください',
       '',
-      '※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でお願いします。',
+      '※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でなるべく端的にお願いします。',
     ].join('\n');
   }
 
@@ -124,6 +134,6 @@ export const buildAiPrompt = ({
     '4.まとめとして、相談者がどうすべきかのメッセージ',
     '5. カードの意味とカード同士のつながりの解説',
     '',
-    '※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でお願いします。',
+    '※ 日本語で、わかりやすく、やや神秘的だが過度に断定しない文体でなるべく端的にお願いします。',
   ].join('\n');
 };
