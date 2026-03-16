@@ -39,10 +39,9 @@ export const ResultPage = ({
                 deckType,
                 resultMode,
                 drawnCards,
-                summary,
                 consultationTopic,
             }),
-        [spreadType, deckType, resultMode, drawnCards, summary, consultationTopic],
+        [spreadType, deckType, resultMode, drawnCards, consultationTopic],
     );
 
     const detailLabel = isDetailOpen ? 'カードの詳細を閉じる' : 'カードの詳細を見る';
