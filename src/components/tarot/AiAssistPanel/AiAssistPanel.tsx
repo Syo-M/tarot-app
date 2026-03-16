@@ -6,13 +6,10 @@ interface AiAssistPanelProps {
 }
 
 const CHATGPT_BASE_URL = 'https://chatgpt.com/';
-const GEMINI_BASE_URL = 'https://gemini.google.com/';
 
 export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
   const encodedPrompt = encodeURIComponent(prompt);
-
   const chatgptUrl = `${CHATGPT_BASE_URL}?q=${encodedPrompt}`;
-  const geminiUrl = `${GEMINI_BASE_URL}?q=${encodedPrompt}`;
 
   const handleCopyPrompt = async () => {
     try {
@@ -31,7 +28,7 @@ export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
         <p className={styles.description}>そのままAIへ渡せます。</p>
       </div>
 
-      <div className={styles.buttonRow}>
+      <div className={styles.buttonRow} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
         <PrimaryButton onClick={handleCopyPrompt}>プロンプトをコピー</PrimaryButton>
         <a
           className={styles.linkButton}
@@ -40,14 +37,6 @@ export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
           rel="noreferrer"
         >
           ChatGPTで相談する
-        </a>
-        <a
-          className={styles.linkButton}
-          href={geminiUrl}
-          target="_blank"
-          rel="noreferrer"
-        >
-          Geminiで相談する
         </a>
       </div>
     </section>
