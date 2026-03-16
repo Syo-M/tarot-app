@@ -53,5 +53,5 @@ export const buildReadingSummary = (drawnCards: DrawnCard[], spreadType: SpreadT
         return 'まだカードが引かれていません。';
     }
 
-    return drawnCards.map(buildCardSentence).concat(closingSentenceMap[spreadType]).join(' ');
+    return drawnCards.map(buildCardSentence).concat(closingSentenceMap[spreadType]).join('\\n\\n');
 };
