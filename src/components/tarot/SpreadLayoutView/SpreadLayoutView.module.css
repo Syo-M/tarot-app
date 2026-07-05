@@ -1,0 +1,116 @@
+.wrapper {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.layout {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+  max-width: 720px;
+  margin: 0;
+  margin-inline: auto;
+  padding: 0;
+  list-style: none;
+}
+
+/* --- スプレッド別の配置 --- */
+.layout[data-spread='single'] {
+  grid-template-columns: minmax(0, 200px);
+  justify-content: center;
+}
+
+.layout[data-spread='two'] {
+  grid-template-columns: repeat(2, minmax(0, 180px));
+  justify-content: center;
+}
+
+.layout[data-spread='three'] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.layout[data-spread='four'] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+/*
+ * ケルト十字: 中央の十字（左=過去の土台 / 中央=現状 / 上=顕在意識 / 下=潜在意識+障害 /
+ * 右=近未来）と、右端の縦列（上から最終結果→希望と不安→周囲→本人）で構成する。
+ */
+.layout[data-spread='celticCross'] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-areas:
+    '.              conscious    .          outcome'
+    'pastFoundation situation    nearFuture hopesFears'
+    '.              challenge    .          environment'
+    '.              subconscious .          self';
+}
+
+.layout[data-spread='celticCross'] .cell[data-position='situation'] { grid-area: situation; }
+.layout[data-spread='celticCross'] .cell[data-position='challenge'] { grid-area: challenge; }
+.layout[data-spread='celticCross'] .cell[data-position='conscious'] { grid-area: conscious; }
+.layout[data-spread='celticCross'] .cell[data-position='subconscious'] { grid-area: subconscious; }
+.layout[data-spread='celticCross'] .cell[data-position='pastFoundation'] { grid-area: pastFoundation; }
+.layout[data-spread='celticCross'] .cell[data-position='nearFuture'] { grid-area: nearFuture; }
+.layout[data-spread='celticCross'] .cell[data-position='self'] { grid-area: self; }
+.layout[data-spread='celticCross'] .cell[data-position='environment'] { grid-area: environment; }
+.layout[data-spread='celticCross'] .cell[data-position='hopesFears'] { grid-area: hopesFears; }
+.layout[data-spread='celticCross'] .cell[data-position='outcome'] { grid-area: outcome; }
+
+@media (width >= 720px) {
+  .layout[data-spread='four'] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* --- セル --- */
+.cell {
+  display: grid;
+  gap: var(--space-1);
+  align-content: start;
+  justify-items: center;
+
+  /* カード公開演出: 意味の順に1枚ずつ現れる */
+  animation: reveal-card var(--duration-reveal) var(--ease-standard) both;
+  animation-delay: calc(var(--reveal-index) * 0.15s);
+}
+
+.cell:nth-child(1) { --reveal-index: 0; }
+.cell:nth-child(2) { --reveal-index: 1; }
+.cell:nth-child(3) { --reveal-index: 2; }
+.cell:nth-child(4) { --reveal-index: 3; }
+.cell:nth-child(5) { --reveal-index: 4; }
+.cell:nth-child(6) { --reveal-index: 5; }
+.cell:nth-child(7) { --reveal-index: 6; }
+.cell:nth-child(8) { --reveal-index: 7; }
+.cell:nth-child(9) { --reveal-index: 8; }
+.cell:nth-child(10) { --reveal-index: 9; }
+
+.positionLabel {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-align: center;
+}
+
+.cardHolder {
+  width: 100%;
+}
+
+@keyframes reveal-card {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cell {
+    animation: none;
+  }
+}

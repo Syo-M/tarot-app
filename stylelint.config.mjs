@@ -1,10 +1,8 @@
 // Stylelint config — based on fable_skills/templates/stylelint.config.mjs.
 // Enforces the design-token rules from `css-modules` / `design-system`.
 //
-// 段階適用メモ:
-// - 色 / z-index / box-shadow / transition-duration のトークン強制は有効（Phase 2 で対応済み）。
-// - spacing（margin/padding/gap）の強制は、スペーシングのトークン化（Phase 4 の
-//   UI/UX 調整と同時に実施予定）が終わってから配列に追加する。
+// トークン強制: 色 / z-index / box-shadow / transition-duration（Phase 2）に加え、
+// spacing（margin/padding/gap）と font-size（Phase 4 のトークン化完了）も有効。
 /** @type {import('stylelint').Config} */
 export default {
   extends: ['stylelint-config-standard'],
@@ -12,7 +10,10 @@ export default {
   rules: {
     // Themable properties must use var() — raw hex/rgb values in component modules are bugs.
     'scale-unlimited/declaration-strict-value': [
-      ['/color/', 'fill', 'stroke', 'z-index', 'box-shadow', 'transition-duration'],
+      [
+        '/color/', 'fill', 'stroke', 'z-index', 'box-shadow', 'transition-duration',
+        '/^margin/', '/^padding/', 'gap', 'row-gap', 'column-gap', 'font-size',
+      ],
       {
         ignoreValues: [
           'transparent', 'currentColor', 'inherit', 'none', 'initial', 'unset',

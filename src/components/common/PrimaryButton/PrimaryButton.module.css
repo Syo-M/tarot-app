@@ -3,7 +3,7 @@
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
   min-height: 52px;
-  padding: 0.9rem 1.2rem;
+  padding: var(--space-4) var(--space-5);
   font: inherit;
   font-weight: 700;
   letter-spacing: 0.02em;

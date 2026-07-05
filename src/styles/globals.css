@@ -5,7 +5,10 @@
 html {
   font-family: Inter, 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
   color: var(--color-text);
-  background: var(--gradient-page);
+
+  /* オーバースクロール領域が白くならないよう背景色も明示する */
+  background-color: var(--color-bg);
+  background-image: var(--gradient-page);
 }
 
 body {

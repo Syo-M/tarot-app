@@ -51,6 +51,11 @@ export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
         }
     };
 
+    const chatGptUrl = buildChatGptUrl(prompt);
+
+    // ケルト十字など長大なプロンプトは URL で渡しきれないことがある
+    const isLongPrompt = chatGptUrl.length > 6000;
+
     return (
         <section className={styles.panel}>
             <div className={styles.header}>
@@ -65,15 +70,16 @@ export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
 
             <div className={styles.buttonRow}>
                 <PrimaryButton onClick={() => void handleCopyPrompt()}>プロンプトをコピー</PrimaryButton>
-                <a
-                    className={styles.linkButton}
-                    href={buildChatGptUrl(prompt)}
-                    target="_blank"
-                    rel="noreferrer"
-                >
+                <a className={styles.linkButton} href={chatGptUrl} target="_blank" rel="noreferrer">
                     ChatGPTで相談する
                 </a>
             </div>
+
+            {isLongPrompt ? (
+                <p className={styles.note}>
+                    プロンプトが長いため、リンクから開けない場合は「プロンプトをコピー」で貼り付けてご利用ください。
+                </p>
+            ) : null}
 
             {/* コピー結果をスクリーンリーダーにも通知する（aria-live: 常時 DOM に存在） */}
             <p className={styles.copyStatus} role="status">

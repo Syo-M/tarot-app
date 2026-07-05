@@ -81,10 +81,31 @@
   --z-deck-upper: 3;
   --z-deck-middle: 4;
 
+  /* --- スペーシングスケール --- */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* --- タイポグラフィスケール --- */
+  --font-size-xs: 0.8rem;
+  --font-size-sm: 0.9rem;
+  --font-size-base: 1rem;
+  --font-size-md: 1.05rem;
+  --font-size-lg: 1.35rem;
+  --font-size-display: clamp(2rem, 4vw, 3.25rem);
+  --font-size-icon: 3rem;
+  --font-size-icon-sm: 1.6rem;
+
   /* --- モーション --- */
   --duration-fast: 0.15s;
   --duration-base: 0.18s;
   --duration-slow: 0.28s;
+  --duration-reveal: 0.45s;
   --duration-shuffle: 3.8s;
   --duration-pulse: 3.4s;
   --ease-standard: ease;

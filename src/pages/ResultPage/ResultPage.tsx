@@ -4,6 +4,7 @@ import { ScreenContainer } from '../../components/common/ScreenContainer/ScreenC
 import { AiAssistPanel } from '../../components/tarot/AiAssistPanel/AiAssistPanel';
 import { ResultCard } from '../../components/tarot/ResultCard/ResultCard';
 import { ResultSummary } from '../../components/tarot/ResultSummary/ResultSummary';
+import { SpreadLayoutView } from '../../components/tarot/SpreadLayoutView/SpreadLayoutView';
 import type { DeckType, DrawnCard, ResultMode, SpreadType } from '../../types/tarot';
 import { buildAiPrompt } from '../../utils/promptBuilder';
 import { buildReadingSummary } from '../../utils/readingSummary';
@@ -48,7 +49,6 @@ export const ResultPage = ({
   );
 
   const detailLabel = isDetailOpen ? 'カードの詳細を閉じる' : 'カードの詳細を見る';
-  const isThreeCard = spreadType === 'three';
 
   return (
     <ScreenContainer
@@ -56,9 +56,11 @@ export const ResultPage = ({
       subtitle="まずは全体の流れを見て、必要ならカードごとの意味も確認できます。"
     >
       <div className={styles.page}>
-        <AiAssistPanel prompt={prompt} />
+        <SpreadLayoutView spreadType={spreadType} drawnCards={drawnCards} />
 
         <ResultSummary summary={summary} resultMode={resultMode} />
+
+        <AiAssistPanel prompt={prompt} />
 
         <div className={styles.buttonRow}>
           <PrimaryButton onClick={onRetry}>もう一度占う</PrimaryButton>
@@ -72,13 +74,14 @@ export const ResultPage = ({
             type="button"
             className={styles.detailButton}
             onClick={() => setIsDetailOpen((prevState) => !prevState)}
+            aria-expanded={isDetailOpen}
           >
             {detailLabel}
           </button>
         </div>
 
         {isDetailOpen ? (
-          <section className={isThreeCard ? styles.threeCardGrid : styles.cardList}>
+          <section className={styles.cardList} aria-label="カードごとの詳細">
             {drawnCards.map((drawnCard) => (
               <ResultCard
                 key={`${drawnCard.card.id}-${drawnCard.position}`}

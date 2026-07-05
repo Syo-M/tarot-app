@@ -50,7 +50,7 @@ export const App = () => {
                 drawnCards={drawnCards}
                 resultMode={resultMode}
                 consultationTopic={consultationTopic}
-                onRetry={resetToHome}
+                onRetry={startReading}
                 onBackHome={resetToHome}
             />
         );

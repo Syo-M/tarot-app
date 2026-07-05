@@ -1,10 +1,18 @@
-.body {
-  display: grid;
-  gap: 12px;
-  text-align: center;
+.page {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: center;
+    text-align: center;
 }
 
-.body p {
-  margin: 0;
-  color: var(--color-text-muted);
+.actions {
+    display: grid;
+    gap: var(--space-3);
+    justify-items: center;
+}
+
+.note {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-size: var(--font-size-sm);
 }

@@ -1,14 +1,14 @@
 .panel {
   display: grid;
-  gap: 16px;
-  padding: 20px;
+  gap: var(--space-4);
+  padding: var(--space-5);
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   background: var(--color-panel);
 }
 
 .header h2 {
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-2);
 }
 
 .header p,
@@ -20,7 +20,7 @@
 
 .actions {
   display: grid;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .linkButton,
@@ -30,7 +30,7 @@
   justify-content: center;
   min-height: 52px;
   border-radius: var(--radius-pill);
-  padding: 0.9rem 1.2rem;
+  padding: var(--space-4) var(--space-5);
   text-decoration: none;
 
   /* font ショートハンドは font-weight を打ち消すため family のみ継承する */
@@ -59,7 +59,7 @@
 .buttonRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 /* コピー結果の通知（aria-live）。未通知時も DOM に存在させ高さ揺れを防ぐ */
@@ -67,5 +67,5 @@
   margin: 0;
   min-height: 1.5em;
   color: var(--color-accent-soft);
-  font-size: 0.9rem;
+  font-size: var(--font-size-sm);
 }

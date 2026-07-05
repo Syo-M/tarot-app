@@ -1,7 +1,23 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
 
+// 画面フェードイン等の演出途中に axe が走ると、薄い opacity のまま
+// コントラストが計測されてしまう。有限アニメーションを完了させてから検査する
+// （シャッフルの無限ループ演出はテキストを含まないため対象外）。
+const settleAnimations = async (page: Page) => {
+  await page.evaluate(() => {
+    document.getAnimations().forEach((animation) => {
+      const timing = animation.effect?.getComputedTiming();
+      if (timing && Number.isFinite(Number(timing.endTime))) {
+        animation.finish();
+      }
+    });
+  });
+};
+
 const expectNoSeriousViolations = async (page: Page) => {
+  await settleAnimations(page);
+
   const results = await new AxeBuilder({ page }).analyze();
   const serious = results.violations.filter(
     (violation) => violation.impact === 'serious' || violation.impact === 'critical',

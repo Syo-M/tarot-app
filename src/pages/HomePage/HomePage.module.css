@@ -3,18 +3,18 @@
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   background: var(--color-panel);
-  padding: 20px;
+  padding: var(--space-5);
 }
 
 .heroCard {
   display: grid;
-  gap: 18px;
+  gap: var(--space-5);
   background: var(--gradient-hero);
 }
 
 .heroCard h2,
 .panelHeader h2 {
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-2);
 }
 
 .heroCard p,
@@ -25,9 +25,9 @@
 }
 
 .kicker {
-  margin: 0 0 8px;
+  margin: 0 0 var(--space-2);
   color: var(--color-accent-soft);
-  font-size: 0.85rem;
+  font-size: var(--font-size-sm);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -36,12 +36,12 @@
 .quickActions,
 .bottomCta {
   display: grid;
-  gap: 10px;
+  gap: var(--space-3);
 }
 
 .panel {
   display: grid;
-  gap: 18px;
+  gap: var(--space-5);
 }
 
 .fieldLabel {
@@ -57,7 +57,7 @@
   /* 操作要素の境界は 3:1 を満たす濃いボーダー（WCAG 1.4.11） */
   border: 1px solid var(--color-border-interactive);
   background: var(--color-input-bg);
-  padding: 14px 16px;
+  padding: var(--space-4);
   color: var(--color-text);
   line-height: 1.7;
 }

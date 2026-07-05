@@ -23,6 +23,9 @@ export default tseslint.config(
       'dist/**',
       'eslint.config.js',
       'stylelint.config.mjs',
+      // Storybook 設定は typed-lint の projectService がドットディレクトリを解決できない。
+      // 型チェックは tsconfig.tools.json でカバーする
+      '.storybook/**',
     ],
   },
   js.configs.recommended,

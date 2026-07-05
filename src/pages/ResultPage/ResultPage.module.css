@@ -1,20 +1,48 @@
 .page {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .buttonRow {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: var(--space-4);
 }
 
 .detailToggle {
-  margin-top: 1rem;
+  margin-top: var(--space-4);
 }
 
-.cardList,
-.threeCardGrid {
-  margin-top: 1rem;
+/* 詳細の開閉トグル（タップ領域44px以上を確保） */
+.detailButton {
+  appearance: none;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-pill);
+  background: var(--color-chip);
+  color: var(--color-text);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+
+.detailButton:hover {
+  background: var(--color-chip-strong);
+  border-color: var(--color-focus-ring);
+}
+
+.detailButton[aria-expanded='true'] {
+  background: var(--color-selected-bg);
+  border-color: var(--color-selected-border);
+}
+
+.cardList {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
 }

@@ -15,13 +15,39 @@ test('カスタマイズ設定で占い、詳細カードまで確認できる',
   await expect(page.getByRole('heading', { name: 'カードを整えています' })).toBeVisible();
   await page.getByRole('button', { name: '結果を見る' }).click();
 
-  // 結果画面: 総合リーディングと3枚のカード詳細
+  // 結果画面: スプレッド配置ビュー・総合リーディング・3枚のカード詳細
   await expect(page.getByRole('heading', { name: '占い結果' })).toBeVisible();
+  await expect(page.getByRole('region', { name: 'カードの配置' })).toBeVisible();
+  await expect(
+    page.getByRole('region', { name: 'カードの配置' }).getByRole('listitem'),
+  ).toHaveCount(3);
+  await expect(page.getByText('1. 過去')).toBeVisible();
+  await expect(page.getByText('3. これから')).toBeVisible();
   await expect(page.getByRole('heading', { name: '今回のリーディング' })).toBeVisible();
   await expect(page.getByRole('article')).toHaveCount(3);
 
   // 3枚引きの結果には「これから」の位置ラベルが含まれる（画面とプロンプトの統一表記）
   await expect(page.getByText(/これからには「/)).toBeVisible();
+});
+
+test('「もう一度占う」は同じ設定で再シャッフルする', async ({ page }) => {
+  await page.goto('/');
+
+  await page.getByRole('button', { name: /ケルト十字/ }).click();
+  await page.getByRole('button', { name: 'この設定で占う' }).click();
+  await page.getByRole('button', { name: '結果を見る' }).click();
+  await expect(page.getByRole('heading', { name: '占い結果' })).toBeVisible();
+
+  await page.getByRole('button', { name: 'もう一度占う' }).click();
+
+  // 同じ設定（ケルト十字）のままシャッフル画面に戻る
+  await expect(page.getByRole('heading', { name: 'カードを整えています' })).toBeVisible();
+  await expect(page.getByText(/ケルト十字 の準備をしています/)).toBeVisible();
+
+  await page.getByRole('button', { name: '結果を見る' }).click();
+  await expect(
+    page.getByRole('region', { name: 'カードの配置' }).getByRole('listitem'),
+  ).toHaveCount(10);
 });
 
 test('結果画面からトップへ戻れる', async ({ page }) => {
