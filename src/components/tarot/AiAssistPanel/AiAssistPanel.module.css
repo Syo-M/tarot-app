@@ -2,9 +2,9 @@
   display: grid;
   gap: 16px;
   padding: 20px;
-  border-radius: 24px;
-  border: 1px solid rgb(255 255 255 / 12%);
-  background: rgb(255 255 255 / 5%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-panel);
 }
 
 .header h2 {
@@ -29,7 +29,7 @@
   align-items: center;
   justify-content: center;
   min-height: 52px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 0.9rem 1.2rem;
   text-decoration: none;
 
@@ -40,14 +40,14 @@
 }
 
 .linkButton {
-  background: #fff;
-  color: #191422;
+  background: var(--color-white);
+  color: var(--color-text-on-light);
 }
 
 .linkButtonSecondary {
-  background: rgb(255 255 255 / 8%);
-  color: #f5efff;
-  border: 1px solid rgb(255 255 255 / 14%);
+  background: var(--color-chip);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
 }
 
 @media (width >= 720px) {
@@ -60,4 +60,12 @@
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+}
+
+/* コピー結果の通知（aria-live）。未通知時も DOM に存在させ高さ揺れを防ぐ */
+.copyStatus {
+  margin: 0;
+  min-height: 1.5em;
+  color: var(--color-accent-soft);
+  font-size: 0.9rem;
 }

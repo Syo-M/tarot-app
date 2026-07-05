@@ -1,7 +1,7 @@
 .card {
   width: min(100%, 220px);
   margin: 0 auto;
-  transition: transform 0.28s ease;
+  transition: transform var(--duration-slow) var(--ease-standard);
 }
 
 .reversed {
@@ -10,12 +10,10 @@
 
 .art {
   aspect-ratio: 2 / 3;
-  border-radius: 22px;
-  border: 1px solid rgb(255 255 255 / 16%);
-  background:
-    radial-gradient(circle at top, rgb(255 255 255 / 18%), transparent 35%),
-    linear-gradient(180deg, rgb(111 88 194 / 95%), rgb(18 14 31 / 98%));
-  box-shadow: 0 16px 40px rgb(0 0 0 / 28%);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border-card);
+  background: var(--gradient-card-art);
+  box-shadow: var(--shadow-card-art);
   display: grid;
   place-items: center;
   padding: 16px;
@@ -26,11 +24,11 @@
   display: block;
   margin-bottom: 12px;
   font-size: 3rem;
-  color: rgb(255 238 182 / 90%);
+  color: var(--color-moonlight);
 }
 
 .nameEn {
-  color: #f3edff;
+  color: var(--color-text);
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.06em;

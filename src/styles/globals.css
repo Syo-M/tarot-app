@@ -5,9 +5,7 @@
 html {
   font-family: Inter, 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
   color: var(--color-text);
-  background:
-    radial-gradient(circle at top, rgb(99 75 180 / 35%), transparent 30%),
-    linear-gradient(180deg, #0f0b16, #171220 55%, #0e0a15 100%);
+  background: var(--gradient-page);
 }
 
 body {
@@ -34,4 +32,10 @@ img {
 
 #root {
   min-height: 100vh;
+}
+
+/* キーボード操作時のフォーカスリングを全操作要素で統一（a11y: 可視フォーカス必須） */
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
 }

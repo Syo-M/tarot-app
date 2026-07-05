@@ -17,21 +17,26 @@
 
 .card {
   appearance: none;
-  border: 1px solid rgb(255 255 255 / 12%);
-  border-radius: 18px;
-  background: rgb(12 12 24 / 72%);
+
+  /* 操作要素の境界は 3:1 を満たす濃いボーダー（WCAG 1.4.11） */
+  border: 1px solid var(--color-border-interactive);
+  border-radius: var(--radius-md);
+  background: var(--color-input-bg);
   color: var(--color-text);
   padding: 14px;
   text-align: left;
   cursor: pointer;
   display: grid;
   gap: 6px;
-  transition: transform 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard);
 }
 
 .card:hover {
   transform: translateY(-1px);
-  border-color: rgb(255 255 255 / 24%);
+  border-color: var(--color-focus-ring);
 }
 
 .card strong {
@@ -45,7 +50,7 @@
 }
 
 .selected {
-  border-color: rgb(255 214 102 / 90%);
-  background: rgb(255 214 102 / 12%);
-  box-shadow: 0 0 0 1px rgb(255 214 102 / 35%) inset;
+  border-color: var(--color-selected-border);
+  background: var(--color-selected-bg);
+  box-shadow: var(--shadow-selected-inset);
 }

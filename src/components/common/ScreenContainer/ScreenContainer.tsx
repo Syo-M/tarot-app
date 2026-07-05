@@ -13,7 +13,10 @@ export const ScreenContainer = ({ title, subtitle, footer, children }: ScreenCon
       <div className={styles.shell}>
         <header className={styles.header}>
           <p className={styles.eyebrow}>Moonlit Tarot</p>
-          <h1 className={styles.title}>{title}</h1>
+          {/* 画面遷移時にフォーカスを移す対象（App.tsx が focus() を呼ぶ） */}
+          <h1 className={styles.title} tabIndex={-1}>
+            {title}
+          </h1>
           {subtitle ? <p className={styles.subtitle}>{subtitle}</p> : null}
         </header>
         <section className={styles.content}>{children}</section>

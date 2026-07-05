@@ -18,15 +18,10 @@
     position: absolute;
     width: 220px;
     height: 220px;
-    border-radius: 999px;
-    background: radial-gradient(
-        circle,
-        rgb(127 92 255 / 18%) 0%,
-        rgb(127 92 255 / 8%) 42%,
-        rgb(127 92 255 / 0%) 76%
-    );
+    border-radius: var(--radius-pill);
+    background: var(--gradient-deck-glow);
     filter: blur(10px);
-    animation: pulse 3.4s ease-in-out infinite;
+    animation: pulse var(--duration-pulse) var(--ease-in-out) infinite;
 }
 
 .cards {
@@ -43,9 +38,9 @@
     top: 50%;
     width: 132px;
     height: 196px;
-    border-radius: 18px;
+    border-radius: var(--radius-md);
     transform-origin: center center;
-    animation: cut-shuffle 3.8s ease-in-out infinite;
+    animation: cut-shuffle var(--duration-shuffle) var(--ease-in-out) infinite;
     animation-delay: var(--delay);
     animation-fill-mode: backwards;
     will-change: transform, opacity;
@@ -58,56 +53,52 @@
 .card:nth-child(1) {
     --index: 0;
 
-    z-index: 3;
+    z-index: var(--z-deck-upper);
 }
 
 .card:nth-child(2) {
     --index: 1;
 
-    z-index: 3;
+    z-index: var(--z-deck-upper);
 }
 
 .card:nth-child(3) {
     --index: 2;
 
-    z-index: 3;
+    z-index: var(--z-deck-upper);
 }
 
 .card:nth-child(4) {
     --index: 3;
 
-    z-index: 4;
+    z-index: var(--z-deck-middle);
 }
 
 .card:nth-child(5) {
     --index: 4;
 
-    z-index: 2;
+    z-index: var(--z-deck-lower);
 }
 
 .card:nth-child(6) {
     --index: 5;
 
-    z-index: 2;
+    z-index: var(--z-deck-lower);
 }
 
 .card:nth-child(7) {
     --index: 6;
 
-    z-index: 2;
+    z-index: var(--z-deck-lower);
 }
 
 .cardInner {
     position: absolute;
     inset: 0;
-    border-radius: 18px;
-    border: 1px solid rgb(255 255 255 / 18%);
-    background:
-        radial-gradient(circle at 50% 35%, rgb(255 255 255 / 18%), rgb(255 255 255 / 0%) 36%),
-        linear-gradient(180deg, rgb(111 88 194 / 98%), rgb(18 14 31 / 98%));
-    box-shadow:
-        0 14px 28px rgb(0 0 0 / 26%),
-        inset 0 0 0 1px rgb(255 255 255 / 6%);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-card);
+    background: var(--gradient-deck-card);
+    box-shadow: var(--shadow-deck-card);
 }
 
 .cardInner::before,
@@ -115,13 +106,13 @@
     content: '';
     position: absolute;
     inset: 14px;
-    border-radius: 12px;
-    border: 1px solid rgb(255 255 255 / 12%);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
 }
 
 .cardInner::after {
     inset: 28px;
-    border-radius: 999px;
+    border-radius: var(--radius-pill);
     opacity: 0.72;
 }
 
@@ -187,5 +178,16 @@
     50% {
         transform: scale(1.04);
         opacity: 0.92;
+    }
+}
+
+/*
+ * 視差・自動再生モーションを避けたいユーザーには演出を止めて静的な束を表示する。
+ * 「シャッフル中」の状態はテキスト（title/text）で引き続き伝わる。
+ */
+@media (prefers-reduced-motion: reduce) {
+    .card,
+    .glow {
+        animation: none;
     }
 }

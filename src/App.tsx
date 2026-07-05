@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { HomePage } from './pages/HomePage/HomePage';
 import { ResultPage } from './pages/ResultPage/ResultPage';
 import { ShufflePage } from './pages/ShufflePage/ShufflePage';
@@ -21,6 +22,19 @@ export const App = () => {
         finishShuffleAndReveal,
         resetToHome,
     } = useTarotReading();
+
+    // 画面切替時に新しい画面の見出しへフォーカスを移す
+    // （SPA の遷移はスクリーンリーダーに伝わらないため。a11y: focus management）
+    const previousScreenRef = useRef(screen);
+
+    useEffect(() => {
+        if (previousScreenRef.current === screen) {
+            return;
+        }
+
+        previousScreenRef.current = screen;
+        document.querySelector<HTMLHeadingElement>('h1')?.focus();
+    }, [screen]);
 
     if (screen === 'shuffle') {
         return (

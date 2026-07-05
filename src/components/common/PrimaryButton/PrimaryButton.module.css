@@ -1,14 +1,17 @@
 .button {
   appearance: none;
   border: 1px solid transparent;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   min-height: 52px;
   padding: 0.9rem 1.2rem;
   font: inherit;
   font-weight: 700;
   letter-spacing: 0.02em;
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+  transition:
+    transform var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard),
+    opacity var(--duration-base) var(--ease-standard);
 }
 
 .button:hover {
@@ -20,7 +23,7 @@
 }
 
 .button:focus-visible {
-  outline: 2px solid rgb(255 255 255 / 75%);
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 3px;
 }
 
@@ -29,21 +32,21 @@
 }
 
 .primary {
-  color: #17131f;
-  background: linear-gradient(180deg, #ffd86f 0%, #f5bd2a 100%);
-  border-color: rgb(109 75 12 / 35%);
-  box-shadow: 0 10px 24px rgb(245 189 42 / 28%);
+  color: var(--color-text-on-light);
+  background: var(--gradient-gold);
+  border-color: var(--color-border-gold);
+  box-shadow: var(--shadow-button-primary);
 }
 
 .secondary {
-  color: #f9f5ff;
-  background: rgb(255 255 255 / 10%);
-  border-color: rgb(255 255 255 / 18%);
-  box-shadow: 0 8px 20px rgb(0 0 0 / 18%);
+  color: var(--color-text);
+  background: var(--color-chip-strong);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-button-secondary);
 }
 
 .ghost {
-  color: #dacbff;
+  color: var(--color-lavender);
   background: transparent;
-  border-color: rgb(218 203 255 / 24%);
+  border-color: var(--color-border-lavender);
 }
