@@ -70,7 +70,13 @@ export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
 
             <div className={styles.buttonRow}>
                 <PrimaryButton onClick={() => void handleCopyPrompt()}>プロンプトをコピー</PrimaryButton>
-                <a className={styles.linkButton} href={chatGptUrl} target="_blank" rel="noreferrer">
+                <a
+                    className={styles.linkButton}
+                    href={chatGptUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label="ChatGPTで相談する（新しいタブで開きます）"
+                >
                     ChatGPTで相談する
                 </a>
             </div>

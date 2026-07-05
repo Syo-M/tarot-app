@@ -21,7 +21,7 @@ export const Default: Story = {};
 
 export const ChatGptLinkCarriesPrompt: Story = {
   play: async ({ canvas }) => {
-    const link = canvas.getByRole('link', { name: 'ChatGPTで相談する' });
+    const link = canvas.getByRole('link', { name: /ChatGPTで相談する（新しいタブで開きます）/ });
 
     await expect(link).toHaveAttribute('href', expect.stringMatching(/^https:\/\/chatgpt\.com\/\?q=/));
     await expect(link).toHaveAttribute('rel', 'noreferrer');

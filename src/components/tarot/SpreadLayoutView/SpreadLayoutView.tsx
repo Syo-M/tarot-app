@@ -19,7 +19,9 @@ export const SpreadLayoutView = ({ spreadType, drawnCards }: SpreadLayoutViewPro
 
   return (
     <section className={styles.wrapper} aria-label="カードの配置">
-      <ol className={styles.layout} data-spread={spreadType}>
+      {/* list-style:none で消える WebKit のリスト意味を role で明示的に復元する */}
+      {/* eslint-disable-next-line jsx-a11y/no-redundant-roles */}
+      <ol className={styles.layout} data-spread={spreadType} role="list">
         {drawnCards.map((drawnCard, index) => (
           <li key={drawnCard.position} className={styles.cell} data-position={drawnCard.position}>
             <span className={styles.positionLabel}>

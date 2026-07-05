@@ -1,0 +1,83 @@
+# マージブロッキング CI — fable_skills/templates/github/workflows/ci.yml を本プロジェクトに適合。
+# governance スキルのゲート順序に対応する。全ジョブが green でなければマージ不可。
+name: ci
+
+on:
+  pull_request:
+  push:
+    branches: [main, ver_2]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      # Frozen, script-free install（esbuild/swc は optionalDependencies 経由でバイナリ解決）
+      - run: npm ci --ignore-scripts
+
+      # 1. Typecheck + lint (ESLint + Stylelint)
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run stylelint
+
+      # 2. Unit + story tests (Vitest incl. Storybook Vitest addon); a11y serious/critical fail
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test
+
+      # 3. E2E on critical paths + axe scan (Playwright)
+      - run: npm run test:e2e
+
+      # 4. Dependency audit — high + critical block
+      - run: npm audit --audit-level=high
+
+      # 5. Bundle-size budget (size-limit)
+      - run: npm run build
+      - run: npm run size
+
+  secrets-scan:
+    # Secrets scan — any finding blocks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7 # v2.3.9
+
+  license-scan:
+    # License check — denied license blocks (policy in `governance`)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - run: npm ci --ignore-scripts
+      # Version-pinned so a compromised newer release can't run in CI unreviewed
+      - run: npx license-checker@25.0.1 --production --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD"
+
+  security-review:
+    # Semgrep による静的セキュリティ検査（.semgrep/ の project rules 含む）
+    runs-on: ubuntu-latest
+    container:
+      image: semgrep/semgrep@sha256:59fbed6127ea7c5dde3ba6a85142733bb20ea9aaa36120c953904f1539aaf66e # v1.168.0
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+      - run: semgrep ci
+        env:
+          SEMGREP_RULES: >-
+            p/owasp-top-ten
+            p/react
+            p/typescript
+            ./.semgrep/
