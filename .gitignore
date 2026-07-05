@@ -1,1 +1,13 @@
 node_modules
+dist
+
+# macOS
+.DS_Store
+
+# fable_skills は独立した git リポジトリ（規約の配布元）のため追跡しない。
+# 共有が必要になったら submodule 化を検討する。
+fable_skills/
+
+# Claude Code ローカル設定・エージェントメモリ
+.claude/settings.local.json
+.claude/agent-memory-local/
