@@ -33,8 +33,8 @@ export const AiAssistPanel = ({ prompt }: AiAssistPanelProps) => {
                 </p>
             </div>
 
-            <div className={styles.buttonRow} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <PrimaryButton onClick={handleCopyPrompt}>プロンプトをコピー</PrimaryButton>
+            <div className={styles.buttonRow}>
+                <PrimaryButton onClick={() => void handleCopyPrompt()}>プロンプトをコピー</PrimaryButton>
                 <a className={styles.linkButton} href={chatgptUrl} target="_blank" rel="noreferrer">
                     ChatGPTで相談する
                 </a>

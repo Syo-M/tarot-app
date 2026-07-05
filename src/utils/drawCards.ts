@@ -33,9 +33,14 @@ export const drawCards = (cards: TarotCard[], spreadType: SpreadType, deckMode: 
     const positions = spreadPositions[spreadType];
     const shuffledCards = shuffleCards(pool).slice(0, positions.length);
 
-    return shuffledCards.map((card, index) => ({
-        card,
-        orientation: getRandomOrientation(),
-        position: positions[index],
-    }));
+    return shuffledCards.flatMap((card, index) => {
+        const position = positions[index];
+
+        // shuffledCards は positions.length 枚に slice 済みのため position は常に存在する
+        if (position === undefined) {
+            return [];
+        }
+
+        return [{ card, orientation: getRandomOrientation(), position }];
+    });
 };

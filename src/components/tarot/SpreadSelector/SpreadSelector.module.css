@@ -17,9 +17,9 @@
 
 .card {
   appearance: none;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgb(255 255 255 / 12%);
   border-radius: 18px;
-  background: rgba(12, 12, 24, 0.72);
+  background: rgb(12 12 24 / 72%);
   color: var(--color-text);
   padding: 14px;
   text-align: left;
@@ -31,7 +31,7 @@
 
 .card:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.24);
+  border-color: rgb(255 255 255 / 24%);
 }
 
 .card strong {
@@ -45,7 +45,7 @@
 }
 
 .selected {
-  border-color: rgba(255, 214, 102, 0.9);
-  background: rgba(255, 214, 102, 0.12);
-  box-shadow: 0 0 0 1px rgba(255, 214, 102, 0.35) inset;
+  border-color: rgb(255 214 102 / 90%);
+  background: rgb(255 214 102 / 12%);
+  box-shadow: 0 0 0 1px rgb(255 214 102 / 35%) inset;
 }

@@ -21,9 +21,9 @@
     border-radius: 999px;
     background: radial-gradient(
         circle,
-        rgba(127, 92, 255, 0.18) 0%,
-        rgba(127, 92, 255, 0.08) 42%,
-        rgba(127, 92, 255, 0) 76%
+        rgb(127 92 255 / 18%) 0%,
+        rgb(127 92 255 / 8%) 42%,
+        rgb(127 92 255 / 0%) 76%
     );
     filter: blur(10px);
     animation: pulse 3.4s ease-in-out infinite;
@@ -37,6 +37,7 @@
 
 .card {
     --delay: calc(var(--index) * 0.12s);
+
     position: absolute;
     left: 50%;
     top: 50%;
@@ -44,28 +45,55 @@
     height: 196px;
     border-radius: 18px;
     transform-origin: center center;
-    animation: cutShuffle 3.8s ease-in-out infinite;
+    animation: cut-shuffle 3.8s ease-in-out infinite;
     animation-delay: var(--delay);
     animation-fill-mode: backwards;
     will-change: transform, opacity;
 }
 
-/* 上の束 */
-.card:nth-child(1),
-.card:nth-child(2),
-.card:nth-child(3) {
+/*
+ * カードごとのアニメーション遅延インデックス（インラインstyle禁止のためCSS側で付与）と
+ * 重なり順。1〜3=上の束 / 4=真ん中 / 5〜7=下の束
+ */
+.card:nth-child(1) {
+    --index: 0;
+
     z-index: 3;
 }
 
-/* 真ん中 */
+.card:nth-child(2) {
+    --index: 1;
+
+    z-index: 3;
+}
+
+.card:nth-child(3) {
+    --index: 2;
+
+    z-index: 3;
+}
+
 .card:nth-child(4) {
+    --index: 3;
+
     z-index: 4;
 }
 
-/* 下の束 */
-.card:nth-child(5),
-.card:nth-child(6),
+.card:nth-child(5) {
+    --index: 4;
+
+    z-index: 2;
+}
+
+.card:nth-child(6) {
+    --index: 5;
+
+    z-index: 2;
+}
+
 .card:nth-child(7) {
+    --index: 6;
+
     z-index: 2;
 }
 
@@ -73,13 +101,13 @@
     position: absolute;
     inset: 0;
     border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgb(255 255 255 / 18%);
     background:
-        radial-gradient(circle at 50% 35%, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0) 36%),
-        linear-gradient(180deg, rgba(111, 88, 194, 0.98), rgba(18, 14, 31, 0.98));
+        radial-gradient(circle at 50% 35%, rgb(255 255 255 / 18%), rgb(255 255 255 / 0%) 36%),
+        linear-gradient(180deg, rgb(111 88 194 / 98%), rgb(18 14 31 / 98%));
     box-shadow:
-        0 14px 28px rgba(0, 0, 0, 0.26),
-        inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        0 14px 28px rgb(0 0 0 / 26%),
+        inset 0 0 0 1px rgb(255 255 255 / 6%);
 }
 
 .cardInner::before,
@@ -88,7 +116,7 @@
     position: absolute;
     inset: 14px;
     border-radius: 12px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgb(255 255 255 / 12%);
 }
 
 .cardInner::after {
@@ -115,7 +143,7 @@
     color: var(--color-text-muted);
 }
 
-@keyframes cutShuffle {
+@keyframes cut-shuffle {
     0% {
         transform: translate(-50%, -50%) rotate(0deg) translateX(0) translateY(0);
         opacity: 0.95;

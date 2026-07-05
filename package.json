@@ -6,17 +6,33 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "typecheck": "tsc -b",
+    "lint": "eslint .",
+    "stylelint": "stylelint \"src/**/*.css\"",
+    "size": "size-limit"
   },
   "dependencies": {
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
+    "@size-limit/file": "^12.1.0",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react-swc": "^4.0.1",
+    "eslint": "^9.39.4",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "size-limit": "^12.1.0",
+    "stylelint": "^17.14.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-declaration-strict-value": "^1.11.1",
     "typescript": "^5.9.2",
+    "typescript-eslint": "^8.62.1",
     "vite": "^7.1.3"
   }
 }

@@ -1,0 +1,9 @@
+source: https://github.com/Syo-M/fable5_skills
+version: v3.0.3
+styling: css-modules
+state: synchronized
+identical: 41
+differing: 0
+missing: 0
+leftover: 0
+installed: 2026-07-05

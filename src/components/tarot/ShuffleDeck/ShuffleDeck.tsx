@@ -13,11 +13,7 @@ export const ShuffleDeck = ({ spreadLabel }: ShuffleDeckProps) => {
         <div className={styles.glow} />
         <div className={styles.cards}>
           {deckCards.map((cardIndex) => (
-            <div
-              key={cardIndex}
-              className={styles.card}
-              style={{ ['--index' as string]: cardIndex } as React.CSSProperties}
-            >
+            <div key={cardIndex} className={styles.card}>
               <span className={styles.cardInner} />
             </div>
           ))}

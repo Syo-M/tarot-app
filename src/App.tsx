@@ -3,7 +3,7 @@ import { ResultPage } from './pages/ResultPage/ResultPage';
 import { ShufflePage } from './pages/ShufflePage/ShufflePage';
 import { useTarotReading } from './hooks/useTarotReading';
 
-const App = () => {
+export const App = () => {
     const {
         screen,
         spreadType,
@@ -63,5 +63,3 @@ const App = () => {
         />
     );
 };
-
-export default App;

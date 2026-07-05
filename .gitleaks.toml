@@ -1,0 +1,19 @@
+# Starter gitleaks config — copy to .gitleaks.toml. Run in pre-commit AND CI
+# (see templates/github/workflows/ci.yml) and enable push protection on the host.
+# Extends the default ruleset; add project-specific allowlists narrowly and with justification.
+title = "gitleaks config"
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Global allowlist — keep narrow; never blanket-allow real secret patterns."
+paths = [
+  '''(^|/)\.env\.example$''',
+]
+# Do NOT whole-file allowlist README.md / CHANGELOG.md: docs are one of the most common places a
+# real key gets pasted (a curl example, a sample connection string). Scan them. If a specific
+# placeholder trips a false positive, allow only that exact string, with a justification:
+# regexes = [
+#   '''sk_test_EXAMPLE[0-9A-Za-z]+''',  # documented Stripe test placeholder in README
+# ]

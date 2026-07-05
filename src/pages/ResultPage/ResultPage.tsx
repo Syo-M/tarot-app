@@ -60,7 +60,7 @@ export const ResultPage = ({
 
         <ResultSummary summary={summary} resultMode={resultMode} />
 
-        <div className={styles.buttonRow} style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+        <div className={styles.buttonRow}>
           <PrimaryButton onClick={onRetry}>もう一度占う</PrimaryButton>
           <PrimaryButton variant="secondary" onClick={onBackHome}>
             トップへ戻る

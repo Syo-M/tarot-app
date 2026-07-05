@@ -5,5 +5,5 @@
   --color-text-muted: #c3bad9;
   --color-accent: #f5bd2a;
   --color-accent-soft: #f7d67b;
-  --shadow-lg: 0 18px 40px rgba(0, 0, 0, 0.24);
+  --shadow-lg: 0 18px 40px rgb(0 0 0 / 24%);
 }

@@ -6,7 +6,7 @@ html {
   font-family: Inter, 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
   color: var(--color-text);
   background:
-    radial-gradient(circle at top, rgba(99, 75, 180, 0.35), transparent 30%),
+    radial-gradient(circle at top, rgb(99 75 180 / 35%), transparent 30%),
     linear-gradient(180deg, #0f0b16, #171220 55%, #0e0a15 100%);
 }
 

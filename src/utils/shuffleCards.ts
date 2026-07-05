@@ -5,7 +5,16 @@ export const shuffleCards = (cards: TarotCard[]): TarotCard[] => {
 
   for (let index = copiedCards.length - 1; index > 0; index -= 1) {
     const randomIndex = Math.floor(Math.random() * (index + 1));
-    [copiedCards[index], copiedCards[randomIndex]] = [copiedCards[randomIndex], copiedCards[index]];
+    const current = copiedCards[index];
+    const swapped = copiedCards[randomIndex];
+
+    // index / randomIndex は常に配列範囲内（noUncheckedIndexedAccess 対応のガード）
+    if (current === undefined || swapped === undefined) {
+      continue;
+    }
+
+    copiedCards[index] = swapped;
+    copiedCards[randomIndex] = current;
   }
 
   return copiedCards;

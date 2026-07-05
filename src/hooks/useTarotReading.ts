@@ -32,10 +32,11 @@ interface UseTarotReadingReturn {
   resetToHome: () => void;
 }
 
-const quickSpreadCandidates: SpreadType[] = ['single', 'three', 'four', 'celticCross'];
-const quickDeckCandidates: DeckType[] = ['major', 'minor', 'mixed'];
+const quickSpreadCandidates: [SpreadType, ...SpreadType[]] = ['single', 'three', 'four', 'celticCross'];
+const quickDeckCandidates: [DeckType, ...DeckType[]] = ['major', 'minor', 'mixed'];
 
-const getRandomItem = <T,>(items: T[]): T => items[Math.floor(Math.random() * items.length)];
+const getRandomItem = <T,>(items: readonly [T, ...T[]]): T =>
+  items[Math.floor(Math.random() * items.length)] ?? items[0];
 
 export const useTarotReading = (): UseTarotReadingReturn => {
   const [readingState, setReadingState] = useState<ReadingState>(initialState);

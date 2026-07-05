@@ -3,8 +3,8 @@
   gap: 16px;
   padding: 20px;
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 5%);
 }
 
 .header h2 {
@@ -32,24 +32,32 @@
   border-radius: 999px;
   padding: 0.9rem 1.2rem;
   text-decoration: none;
+
+  /* font ショートハンドは font-weight を打ち消すため family のみ継承する */
+  font-family: inherit;
   font-weight: 700;
-  font: inherit;
   cursor: pointer;
 }
 
 .linkButton {
-  background: #ffffff;
+  background: #fff;
   color: #191422;
 }
 
 .linkButtonSecondary {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgb(255 255 255 / 8%);
   color: #f5efff;
-  border: 1px solid rgba(255, 255, 255, 0.14);
+  border: 1px solid rgb(255 255 255 / 14%);
 }
 
-@media (min-width: 720px) {
+@media (width >= 720px) {
   .actions {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
+}
+
+.buttonRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
