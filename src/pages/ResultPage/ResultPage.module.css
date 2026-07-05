@@ -23,8 +23,10 @@
   border-radius: var(--radius-pill);
   background: var(--color-chip);
   color: var(--color-text);
-  font: inherit;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  letter-spacing: 0.04em;
   cursor: pointer;
   transition:
     background var(--duration-fast) var(--ease-standard),

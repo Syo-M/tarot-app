@@ -2,20 +2,22 @@
   appearance: none;
   border: 1px solid transparent;
   border-radius: var(--radius-pill);
-  min-height: 52px;
-  padding: var(--space-4) var(--space-5);
-  font: inherit;
-  font-weight: 700;
-  letter-spacing: 0.02em;
+  min-height: 54px;
+  padding: var(--space-4) var(--space-6);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  letter-spacing: 0.06em;
   cursor: pointer;
   transition:
     transform var(--duration-base) var(--ease-standard),
     box-shadow var(--duration-base) var(--ease-standard),
+    filter var(--duration-base) var(--ease-standard),
     opacity var(--duration-base) var(--ease-standard);
 }
 
 .button:hover {
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
 .button:active {
@@ -38,6 +40,11 @@
   box-shadow: var(--shadow-button-primary);
 }
 
+.primary:hover {
+  box-shadow: var(--shadow-button-primary-hover);
+  filter: brightness(1.04);
+}
+
 .secondary {
   color: var(--color-text);
   background: var(--color-chip-strong);
@@ -45,8 +52,16 @@
   box-shadow: var(--shadow-button-secondary);
 }
 
+.secondary:hover {
+  border-color: var(--color-border-interactive);
+}
+
 .ghost {
   color: var(--color-lavender);
   background: transparent;
   border-color: var(--color-border-lavender);
+}
+
+.ghost:hover {
+  border-color: var(--color-border-interactive);
 }

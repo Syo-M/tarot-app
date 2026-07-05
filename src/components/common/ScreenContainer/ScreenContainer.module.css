@@ -1,6 +1,6 @@
 .screen {
   min-height: 100vh;
-  padding: var(--space-6) var(--space-4) var(--space-8);
+  padding: var(--space-8) var(--space-4) var(--space-9);
 }
 
 .shell {
@@ -12,32 +12,63 @@
 }
 
 .header {
-  margin-bottom: var(--space-5);
+  display: grid;
+  justify-items: center;
+  gap: var(--space-4);
+  margin-bottom: var(--space-8);
+  text-align: center;
 }
 
+/* 序文: 金の細いルールで挟んだ Cormorant のトラッキング大文字 */
 .eyebrow {
-  margin: 0 0 var(--space-3);
-  color: var(--color-accent-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin: 0;
+  font-family: var(--font-latin);
   font-size: var(--font-size-sm);
-  letter-spacing: 0.18em;
+  font-weight: 600;
+  letter-spacing: 0.42em;
+  text-indent: 0.42em;
   text-transform: uppercase;
+  color: var(--color-gold-soft);
+}
+
+.eyebrowRule {
+  display: block;
+  width: clamp(28px, 12vw, 64px);
+  height: 1px;
+  background: var(--gradient-hairline);
 }
 
 .title {
   margin: 0;
+  max-inline-size: 20ch;
+  font-family: var(--font-heading);
   font-size: var(--font-size-display);
-  line-height: 1.05;
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: 0.02em;
 }
 
 .subtitle {
-  margin: var(--space-3) 0 0;
-  max-width: 48rem;
+  margin: 0;
+  max-inline-size: var(--measure);
   color: var(--color-text-muted);
+  font-size: var(--font-size-md);
+  line-height: 1.9;
+}
+
+/* 見出し下の小さな金の紋様 */
+.ornament {
+  color: var(--color-gold);
+  font-size: var(--font-size-sm);
+  opacity: 0.85;
 }
 
 .content {
   display: grid;
-  gap: var(--space-5);
+  gap: var(--space-6);
 }
 
 .footer {
@@ -47,7 +78,7 @@
 @keyframes screen-enter {
   from {
     opacity: 0;
-    transform: translateY(6px);
+    transform: translateY(8px);
   }
 
   to {

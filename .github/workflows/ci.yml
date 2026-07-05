@@ -65,8 +65,10 @@ jobs:
           cache: npm
       - run: npm ci --ignore-scripts
       # Version-pinned so a compromised newer release can't run in CI unreviewed.
-      # --excludePrivatePackages: private なルートパッケージ（license 未指定）を除外
-      - run: npx license-checker@25.0.1 --production --excludePrivatePackages --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD"
+      # --excludePrivatePackages: private なルートパッケージ（license 未指定）を除外。
+      # OFL-1.1 はセルフホストするセリフフォント（@fontsource/*）のライセンス。
+      # SIL Open Font License はパーミッシブでフォント配布に一般的なため許可に追加。
+      - run: npx license-checker@25.0.1 --production --excludePrivatePackages --onlyAllow "MIT;Apache-2.0;BSD-2-Clause;BSD-3-Clause;ISC;0BSD;OFL-1.1"
 
   security-review:
     # Semgrep による静的セキュリティ検査（.semgrep/ の project rules 含む）

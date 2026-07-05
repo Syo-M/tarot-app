@@ -1,6 +1,9 @@
 import type { Preview } from '@storybook/react-vite';
 
-// アプリと同じデザイントークン・グローバルスタイルでレンダリングする
+// アプリと同じフォント・デザイントークン・グローバルスタイルでレンダリングする
+import '@fontsource-variable/noto-serif-jp';
+import '@fontsource/cormorant-garamond/500.css';
+import '@fontsource/cormorant-garamond/600.css';
 import '../src/styles/tokens.css';
 import '../src/styles/globals.css';
 

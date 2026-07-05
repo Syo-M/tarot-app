@@ -1,87 +1,148 @@
 /*
- * デザイントークンの単一情報源。
+ * デザイントークンの単一情報源（Celestial Luxe テーマ）。
  * コンポーネントの *.module.css は raw 値を書かず、必ずここのトークンを参照する。
  * （Stylelint の scale-unlimited/declaration-strict-value で機械強制）
  *
- * ブレークポイント（メディアクエリではカスタムプロパティが使えないため一覧のみ）:
+ * コンセプト: 深い夜空 × 金箔 × 明朝体。星雲のグロー、金のヘアライン、
+ * ガラス質のパネル、詩的なセリフ見出しで「上質な儀式」の空気を作る。
+ *
+ * ブレークポイント（メディアクエリでは custom property が使えないため一覧のみ）:
  *   720px  … ヒーローカード2カラム化・AiAssistPanel 3カラム化
  *   960px  … ResultCard 2カラム化
  */
 :root {
-  /* --- カラー: ベース --- */
-  --color-bg: #0f0b16;
-  --color-surface: #1a1525;
-  --color-text: #f6f2ff;
-  --color-text-muted: #c3bad9;
-  --color-text-on-light: #17131f;
-  --color-accent: #f5bd2a;
-  --color-accent-soft: #f7d67b;
-  --color-lavender: #dacbff;
-  --color-moonlight: rgb(255 238 182 / 90%);
+  /* =========================================================
+   * フォント
+   * ========================================================= */
+  --font-display: 'Cormorant Garamond', 'Shippori Mincho', serif;
+  --font-heading: 'Noto Serif JP Variable', 'Cormorant Garamond', serif;
+  --font-body: 'Noto Serif JP Variable', ui-serif, 'Hiragino Mincho ProN', serif;
+  --font-latin: 'Cormorant Garamond', serif;
+
+  /* =========================================================
+   * カラー: ベース
+   * ========================================================= */
+  --color-bg: #080611;
+  --color-surface: #14101f;
+  --color-text: #f4eee2; /* 温かみのあるアイボリー */
+  --color-text-muted: #ada3c0; /* 淡いラベンダーグレー */
+  --color-text-on-light: #1a1330; /* 金地の上のテキスト */
+
+  /* 金（金箔のグラデーションで使う） */
+  --color-gold: #d9b25c;
+  --color-gold-soft: #ebcd8a;
+  --color-gold-bright: #f3e0ae;
+  --color-gold-deep: #b8892f;
+  --color-lavender: #cdbef0;
+  --color-moonlight: rgb(255 244 214 / 92%);
   --color-white: #fff;
 
-  /* --- カラー: 半透明レイヤー --- */
-  --color-border: rgb(255 255 255 / 12%);
-  --color-border-strong: rgb(255 255 255 / 24%);
+  /* =========================================================
+   * カラー: 半透明レイヤー（ガラス・ヘアライン）
+   * ========================================================= */
+  --color-border: rgb(255 255 255 / 9%);
+  --color-border-strong: rgb(255 255 255 / 18%);
 
-  /* フォーム・選択カードなど操作要素の境界（WCAG 1.4.11 非テキスト3:1対応で濃いめ） */
-  --color-border-interactive: rgb(255 255 255 / 40%);
-  --color-border-card: rgb(255 255 255 / 18%);
-  --color-border-gold: rgb(109 75 12 / 35%);
-  --color-border-lavender: rgb(218 203 255 / 24%);
-  --color-panel: rgb(255 255 255 / 5%);
-  --color-chip: rgb(255 255 255 / 8%);
+  /* 操作要素の境界（WCAG 1.4.11: 金45%で 3.28:1 を確保） */
+  --color-border-interactive: rgb(235 205 138 / 45%);
+
+  /* 装飾用の金ヘアライン（カード枠など。非テキストの装飾） */
+  --color-border-card: rgb(235 205 138 / 24%);
+  --color-border-gold: rgb(217 178 92 / 55%);
+  --color-border-lavender: rgb(205 190 240 / 22%);
+  --color-panel: rgb(255 255 255 / 4%);
+  --color-panel-strong: rgb(255 255 255 / 6%);
+  --color-chip: rgb(255 255 255 / 6%);
   --color-chip-strong: rgb(255 255 255 / 10%);
-  --color-input-bg: rgb(12 12 24 / 72%);
-  --color-focus-ring: rgb(255 255 255 / 75%);
+  --color-input-bg: rgb(10 8 20 / 66%);
+  --color-focus-ring: rgb(235 205 138 / 85%); /* 金のフォーカスリング */
 
-  /* --- カラー: 選択状態（ゴールド） --- */
-  --color-selected-border: rgb(255 214 102 / 90%);
-  --color-selected-bg: rgb(255 214 102 / 12%);
-  --color-selected-glow: rgb(255 214 102 / 35%);
+  /* 選択状態（金） */
+  --color-selected-border: rgb(235 205 138 / 90%);
+  --color-selected-bg: rgb(217 178 92 / 14%);
+  --color-selected-glow: rgb(217 178 92 / 40%);
 
-  /* --- グラデーション --- */
+  /* =========================================================
+   * グラデーション
+   * ========================================================= */
+
+  /* 夜空 + 星雲のグロー + ヴィネット */
   --gradient-page:
-    radial-gradient(circle at top, rgb(99 75 180 / 35%), transparent 30%),
-    linear-gradient(180deg, #0f0b16, #171220 55%, #0e0a15 100%);
-  --gradient-gold: linear-gradient(180deg, #ffd86f 0%, #f5bd2a 100%);
-  --gradient-hero: linear-gradient(180deg, rgb(104 79 193 / 28%), rgb(255 255 255 / 6%));
-  --gradient-summary: linear-gradient(180deg, rgb(104 79 193 / 24%), rgb(255 255 255 / 6%));
+    radial-gradient(ellipse 90% 55% at 18% -5%, rgb(74 45 120 / 45%), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 88% 8%, rgb(38 58 120 / 30%), transparent 50%),
+    radial-gradient(ellipse 120% 70% at 50% 118%, rgb(96 60 150 / 30%), transparent 60%),
+    linear-gradient(180deg, #0a0716 0%, #080611 55%, #06040e 100%);
+
+  /* 星屑（微細な点を数レイヤー重ねる。装飾のため控えめに） */
+  --texture-stars:
+    radial-gradient(1px 1px at 12% 18%, rgb(255 255 255 / 55%), transparent),
+    radial-gradient(1px 1px at 34% 62%, rgb(255 244 214 / 45%), transparent),
+    radial-gradient(1px 1px at 58% 28%, rgb(255 255 255 / 40%), transparent),
+    radial-gradient(1px 1px at 72% 74%, rgb(205 190 240 / 45%), transparent),
+    radial-gradient(1px 1px at 84% 40%, rgb(255 255 255 / 50%), transparent),
+    radial-gradient(1px 1px at 24% 86%, rgb(255 244 214 / 35%), transparent),
+    radial-gradient(1.5px 1.5px at 46% 8%, rgb(255 255 255 / 60%), transparent),
+    radial-gradient(1px 1px at 92% 84%, rgb(255 255 255 / 40%), transparent);
+
+  /* 金箔 */
+  --gradient-gold: linear-gradient(135deg, #f3e0ae 0%, #d9b25c 46%, #b8892f 100%);
+  --gradient-hairline: linear-gradient(
+    120deg,
+    rgb(235 205 138 / 0%),
+    rgb(235 205 138 / 55%) 45%,
+    rgb(235 205 138 / 0%)
+  );
+
+  /* パネル・カード */
+  --gradient-hero: linear-gradient(155deg, rgb(104 79 193 / 24%), rgb(255 255 255 / 3%) 70%);
+  --gradient-summary: linear-gradient(155deg, rgb(120 85 200 / 20%), rgb(255 255 255 / 3%) 72%);
   --gradient-card-art:
-    radial-gradient(circle at top, rgb(255 255 255 / 18%), transparent 35%),
-    linear-gradient(180deg, rgb(111 88 194 / 95%), rgb(18 14 31 / 98%));
+    radial-gradient(circle at 50% 28%, rgb(255 244 214 / 20%), transparent 42%),
+    linear-gradient(180deg, #3a2a66 0%, #1c1436 55%, #0d0920 100%);
   --gradient-deck-card:
-    radial-gradient(circle at 50% 35%, rgb(255 255 255 / 18%), rgb(255 255 255 / 0%) 36%),
-    linear-gradient(180deg, rgb(111 88 194 / 98%), rgb(18 14 31 / 98%));
+    radial-gradient(circle at 50% 32%, rgb(255 244 214 / 16%), rgb(255 255 255 / 0%) 40%),
+    linear-gradient(180deg, #3a2c66 0%, #14102a 100%);
   --gradient-deck-glow:
     radial-gradient(
       circle,
-      rgb(127 92 255 / 18%) 0%,
-      rgb(127 92 255 / 8%) 42%,
-      rgb(127 92 255 / 0%) 76%
+      rgb(150 110 240 / 22%) 0%,
+      rgb(120 90 220 / 10%) 42%,
+      rgb(120 90 220 / 0%) 76%
     );
 
-  /* --- シャドウ --- */
-  --shadow-lg: 0 18px 40px rgb(0 0 0 / 24%);
-  --shadow-card-art: 0 16px 40px rgb(0 0 0 / 28%);
-  --shadow-button-primary: 0 10px 24px rgb(245 189 42 / 28%);
-  --shadow-button-secondary: 0 8px 20px rgb(0 0 0 / 18%);
-  --shadow-deck-card: 0 14px 28px rgb(0 0 0 / 26%), inset 0 0 0 1px rgb(255 255 255 / 6%);
+  /* =========================================================
+   * シャドウ・グロー
+   * ========================================================= */
+  --shadow-lg: 0 24px 60px rgb(0 0 0 / 50%);
+  --shadow-card: 0 18px 48px rgb(0 0 0 / 42%);
+  --shadow-card-art: 0 22px 54px rgb(0 0 0 / 50%);
+  --shadow-button-primary: 0 12px 30px rgb(217 178 92 / 26%);
+  --shadow-button-primary-hover: 0 12px 30px rgb(217 178 92 / 26%), 0 0 24px rgb(217 178 92 / 22%);
+  --shadow-button-secondary: 0 10px 24px rgb(0 0 0 / 30%);
+  --shadow-deck-card: 0 16px 32px rgb(0 0 0 / 34%), inset 0 0 0 1px rgb(235 205 138 / 14%);
   --shadow-selected-inset: 0 0 0 1px var(--color-selected-glow) inset;
+  --glow-gold: 0 0 24px rgb(217 178 92 / 22%);
 
-  /* --- 角丸 --- */
+  /* =========================================================
+   * 角丸
+   * ========================================================= */
   --radius-sm: 12px;
-  --radius-md: 18px;
-  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-lg: 22px;
   --radius-xl: 28px;
   --radius-pill: 999px;
 
-  /* --- z-index ラダー（ShuffleDeck 内のカード重なり） --- */
+  /* =========================================================
+   * z-index ラダー
+   * ========================================================= */
+  --z-behind: -1; /* 背景の星屑レイヤー */
   --z-deck-lower: 2;
   --z-deck-upper: 3;
   --z-deck-middle: 4;
 
-  /* --- スペーシングスケール --- */
+  /* =========================================================
+   * スペーシングスケール
+   * ========================================================= */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
@@ -90,24 +151,35 @@
   --space-6: 24px;
   --space-7: 32px;
   --space-8: 40px;
+  --space-9: 56px;
+  --space-10: 72px;
 
-  /* --- タイポグラフィスケール --- */
+  /* =========================================================
+   * タイポグラフィスケール
+   * ========================================================= */
   --font-size-xs: 0.8rem;
   --font-size-sm: 0.9rem;
   --font-size-base: 1rem;
-  --font-size-md: 1.05rem;
-  --font-size-lg: 1.35rem;
-  --font-size-display: clamp(2rem, 4vw, 3.25rem);
-  --font-size-icon: 3rem;
-  --font-size-icon-sm: 1.6rem;
+  --font-size-md: 1.1rem;
+  --font-size-lg: 1.4rem;
+  --font-size-xl: 1.9rem;
+  --font-size-display: clamp(2rem, 5vw, 3.6rem);
+  --font-size-hero: clamp(2.4rem, 7vw, 4.6rem);
+  --font-size-icon: 3.2rem;
+  --font-size-icon-sm: 1.7rem;
 
-  /* --- モーション --- */
+  /* 本文の最大行長（design-system: 可読性） */
+  --measure: 40rem;
+
+  /* =========================================================
+   * モーション
+   * ========================================================= */
   --duration-fast: 0.15s;
-  --duration-base: 0.18s;
-  --duration-slow: 0.28s;
-  --duration-reveal: 0.45s;
+  --duration-base: 0.2s;
+  --duration-slow: 0.32s;
+  --duration-reveal: 0.5s;
   --duration-shuffle: 3.8s;
   --duration-pulse: 3.4s;
-  --ease-standard: ease;
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-in-out: ease-in-out;
 }

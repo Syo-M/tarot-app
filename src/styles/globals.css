@@ -3,12 +3,17 @@
 }
 
 html {
-  font-family: Inter, 'Hiragino Sans', 'Yu Gothic UI', sans-serif;
+  font-family: var(--font-body);
   color: var(--color-text);
 
   /* オーバースクロール領域が白くならないよう背景色も明示する */
   background-color: var(--color-bg);
   background-image: var(--gradient-page);
+  background-attachment: fixed;
+
+  /* 明朝の可読性を上げる */
+  text-rendering: optimizelegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -17,11 +22,32 @@ body {
   min-height: 100vh;
 }
 
+/* 星屑レイヤー（装飾。固定配置で夜空に浮かべる） */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-behind);
+  background-image: var(--texture-stars);
+  background-repeat: repeat;
+  background-size: 420px 420px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 body,
 button,
 input,
 textarea {
   font-family: inherit;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  letter-spacing: 0.01em;
 }
 
 a {
@@ -41,4 +67,11 @@ img {
 :focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    /* 固定背景はスクロール追従の負荷を避けるため通常配置に戻す */
+    background-attachment: scroll;
+  }
 }

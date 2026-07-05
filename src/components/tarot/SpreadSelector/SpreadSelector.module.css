@@ -5,8 +5,13 @@
 
 .label {
   margin: 0 0 var(--space-3);
-  font-size: var(--font-size-base);
-  font-weight: 700;
+  font-family: var(--font-latin);
+  color: var(--color-gold-soft);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-indent: 0.2em;
+  text-transform: uppercase;
 }
 
 .grid {
@@ -40,7 +45,10 @@
 }
 
 .card strong {
-  font-size: var(--font-size-base);
+  font-family: var(--font-heading);
+  font-size: var(--font-size-md);
+  font-weight: 600;
+  letter-spacing: 0.03em;
 }
 
 .card span {

@@ -1,21 +1,34 @@
 .panel {
+  position: relative;
   display: grid;
   gap: var(--space-4);
-  padding: var(--space-5);
+  padding: var(--space-6);
   border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-card);
   background: var(--color-panel);
+  box-shadow: var(--shadow-card);
+  backdrop-filter: blur(6px);
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  inset-inline: var(--space-6);
+  inset-block-start: 0;
+  height: 1px;
+  background: var(--gradient-hairline);
 }
 
 .header h2 {
   margin: 0 0 var(--space-2);
+  font-size: var(--font-size-xl);
 }
 
 .header p,
 .note {
   margin: 0;
   color: var(--color-text-muted);
-  line-height: 1.7;
+  line-height: 1.9;
 }
 
 .actions {
@@ -28,26 +41,40 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 52px;
+  min-height: 54px;
   border-radius: var(--radius-pill);
-  padding: var(--space-4) var(--space-5);
+  padding: var(--space-4) var(--space-6);
   text-decoration: none;
 
   /* font ショートハンドは font-weight を打ち消すため family のみ継承する */
-  font-family: inherit;
-  font-weight: 700;
+  font-family: var(--font-heading);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  transition:
+    transform var(--duration-base) var(--ease-standard),
+    box-shadow var(--duration-base) var(--ease-standard),
+    filter var(--duration-base) var(--ease-standard);
 }
 
 .linkButton {
-  background: var(--color-white);
+  background: var(--gradient-gold);
   color: var(--color-text-on-light);
+  border: 1px solid var(--color-border-gold);
+  box-shadow: var(--shadow-button-primary);
+}
+
+.linkButton:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-button-primary-hover);
+  filter: brightness(1.04);
 }
 
 .linkButtonSecondary {
   background: var(--color-chip);
   color: var(--color-text);
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-border-strong);
 }
 
 @media (width >= 720px) {
@@ -66,6 +93,6 @@
 .copyStatus {
   margin: 0;
   min-height: 1.5em;
-  color: var(--color-accent-soft);
+  color: var(--color-gold-soft);
   font-size: var(--font-size-sm);
 }
