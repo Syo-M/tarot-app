@@ -24,12 +24,7 @@ export const App = () => {
 
     if (screen === 'shuffle') {
         return (
-            <ShufflePage
-                spreadType={spreadType}
-                deckMode={deckType}
-                resultMode={resultMode}
-                onComplete={finishShuffleAndReveal}
-            />
+            <ShufflePage spreadType={spreadType} deckType={deckType} onComplete={finishShuffleAndReveal} />
         );
     }
 

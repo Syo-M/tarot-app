@@ -2,24 +2,17 @@ import { useEffect } from 'react';
 import { PrimaryButton } from '../../components/common/PrimaryButton/PrimaryButton';
 import { ScreenContainer } from '../../components/common/ScreenContainer/ScreenContainer';
 import { ShuffleDeck } from '../../components/tarot/ShuffleDeck/ShuffleDeck';
-import type { DeckMode, ResultMode, SpreadType } from '../../types/tarot';
-import { getSpreadLabel } from '../../utils/readingSummary';
+import type { DeckType, SpreadType } from '../../types/tarot';
+import { getDeckLabel, getSpreadLabel } from '../../constants/spreads';
 import styles from './ShufflePage.module.css';
 
 interface ShufflePageProps {
     spreadType: SpreadType;
-    deckMode: DeckMode;
-    resultMode: ResultMode;
+    deckType: DeckType;
     onComplete: () => void;
 }
 
-const deckLabelMap = {
-    major: '大アルカナ',
-    minor: '小アルカナ',
-    mixed: '複合',
-} as const;
-
-export const ShufflePage = ({ spreadType, deckMode, onComplete }: ShufflePageProps) => {
+export const ShufflePage = ({ spreadType, deckType, onComplete }: ShufflePageProps) => {
     useEffect(() => {
         const timerId = window.setTimeout(() => {
             onComplete();
@@ -35,7 +28,7 @@ export const ShufflePage = ({ spreadType, deckMode, onComplete }: ShufflePagePro
     return (
         <ScreenContainer
             title="カードを整えています"
-            subtitle={`${deckLabelMap[deckMode]}・${spreadLabel} の準備をしています。`}
+            subtitle={`${getDeckLabel(deckType)}・${spreadLabel} の準備をしています。`}
         >
             <div className={styles.page}>
                 <ShuffleDeck spreadLabel={spreadLabel} />

@@ -1,52 +1,14 @@
-import type { CardPosition, DeckType, DrawnCard, ResultMode, SpreadType } from '../types/tarot';
-
-const orientationLabelMap = {
-    upright: '正位置',
-    reversed: '逆位置',
-} as const;
-
-const spreadLabelMap: Record<SpreadType, string> = {
-    single: '1枚引き',
-    two: '2枚引き',
-    three: '3枚引き',
-    four: '4枚引き',
-    celticCross: 'ケルト十字',
-};
-
-const deckLabelMap: Record<DeckType, string> = {
-    major: '大アルカナ（22枚）',
-    minor: '小アルカナ（56枚）',
-    mixed: '複合（全78枚）',
-};
-
-const positionLabelMap: Record<CardPosition, string> = {
-    single: '今回のテーマ',
-    first: '1枚目',
-    second: '2枚目',
-    third: '3枚目',
-    fourth: '4枚目',
-    past: '過去',
-    present: '現在',
-    future: '未来',
-    situation: '現状',
-    challenge: '障害',
-    conscious: '顕在意識',
-    subconscious: '潜在意識',
-    pastFoundation: '過去の土台',
-    nearFuture: '近未来',
-    self: '本人',
-    environment: '周囲',
-    hopesFears: '希望と不安',
-    outcome: '最終結果',
-};
+import type { DeckType, DrawnCard, ResultMode, SpreadType } from '../types/tarot';
+import { getOrientationLabel, getPositionLabel } from '../constants/labels';
+import { getDeckLabelWithCount, getSpreadLabel } from '../constants/spreads';
 
 const buildCompactCardSection = (drawnCards: DrawnCard[]): string => {
     return drawnCards
         .map((drawnCard, index) => {
             return [
-                `### ${index + 1}. ${positionLabelMap[drawnCard.position]}`,
+                `### ${index + 1}. ${getPositionLabel(drawnCard.position)}`,
                 `- カード名: ${drawnCard.card.nameJa} / ${drawnCard.card.nameEn}`,
-                `- 向き: ${orientationLabelMap[drawnCard.orientation]}`,
+                `- 向き: ${getOrientationLabel(drawnCard.orientation)}`,
             ].join('\n');
         })
         .join('\n\n');
@@ -55,7 +17,7 @@ const buildCompactCardSection = (drawnCards: DrawnCard[]): string => {
 const buildSummaryCardList = (drawnCards: DrawnCard[]): string => {
     return drawnCards
         .map((drawnCard, index) => {
-            return `- ${index + 1}. ${positionLabelMap[drawnCard.position]} / ${drawnCard.card.nameJa} / ${orientationLabelMap[drawnCard.orientation]}`;
+            return `- ${index + 1}. ${getPositionLabel(drawnCard.position)} / ${drawnCard.card.nameJa} / ${getOrientationLabel(drawnCard.orientation)}`;
         })
         .join('\n');
 };
@@ -86,8 +48,8 @@ export const buildAiPrompt = ({
             consultation,
             '',
             '## スプレッド情報',
-            `- スプレッド: ${spreadLabelMap[spreadType]}`,
-            `- 使用デッキ: ${deckLabelMap[deckType]}`,
+            `- スプレッド: ${getSpreadLabel(spreadType)}`,
+            `- 使用デッキ: ${getDeckLabelWithCount(deckType)}`,
             '',
             '## 占い結果',
             buildSummaryCardList(drawnCards),
@@ -113,8 +75,8 @@ export const buildAiPrompt = ({
         consultation,
         '',
         '## スプレッド情報',
-        `- スプレッド: ${spreadLabelMap[spreadType]}`,
-        `- 使用デッキ: ${deckLabelMap[deckType]}`,
+        `- スプレッド: ${getSpreadLabel(spreadType)}`,
+        `- 使用デッキ: ${getDeckLabelWithCount(deckType)}`,
         '',
         '## 引いたカード',
         buildCompactCardSection(drawnCards),

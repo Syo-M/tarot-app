@@ -80,20 +80,12 @@ export const useTarotReading = (): UseTarotReadingReturn => {
   };
 
   const finishShuffleAndReveal = (): void => {
-    setReadingState((prevState) => {
-      const safeDrawCards = drawCards as unknown as (
-        cards: typeof tarotCards,
-        spreadType: SpreadType,
-        deckType?: DeckType,
-      ) => DrawnCard[];
-
-      return {
-        ...prevState,
-        screen: 'result',
-        isShuffling: false,
-        drawnCards: safeDrawCards(tarotCards, prevState.spreadType, prevState.deckType),
-      };
-    });
+    setReadingState((prevState) => ({
+      ...prevState,
+      screen: 'result',
+      isShuffling: false,
+      drawnCards: drawCards(tarotCards, prevState.spreadType, prevState.deckType),
+    }));
   };
 
   const resetToHome = (): void => {

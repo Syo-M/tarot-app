@@ -1,33 +1,5 @@
-import type { CardPosition, DrawnCard, SpreadType } from '../types/tarot';
-
-const positionLabelMap: Record<CardPosition, string> = {
-    single: '今回のテーマ',
-    first: '1枚目',
-    second: '2枚目',
-    third: '3枚目',
-    fourth: '4枚目',
-    past: '過去',
-    present: '現在',
-    future: 'これから',
-    situation: '現状',
-    challenge: '障害',
-    conscious: '顕在意識',
-    subconscious: '潜在意識',
-    pastFoundation: '過去の土台',
-    nearFuture: '近未来',
-    self: '本人',
-    environment: '周囲',
-    hopesFears: '希望と不安',
-    outcome: '最終結果',
-};
-
-const spreadLabelMap: Record<SpreadType, string> = {
-    single: '1枚引き',
-    two: '2枚引き',
-    three: '3枚引き',
-    four: '4枚引き',
-    celticCross: 'ケルト十字',
-};
+import type { DrawnCard, SpreadType } from '../types/tarot';
+import { getPositionLabel } from '../constants/labels';
 
 const closingSentenceMap: Record<SpreadType, string> = {
     single: 'いま一番気になっていることに意識を向けると、流れをつかみやすくなります。',
@@ -41,12 +13,8 @@ const buildCardSentence = (drawnCard: DrawnCard): string => {
     const meaning =
         drawnCard.orientation === 'upright' ? drawnCard.card.uprightMeaning : drawnCard.card.reversedMeaning;
 
-    return `${positionLabelMap[drawnCard.position]}には「${drawnCard.card.nameJa}」が出ています。${meaning}`;
+    return `${getPositionLabel(drawnCard.position)}には「${drawnCard.card.nameJa}」が出ています。${meaning}`;
 };
-
-export const getPositionLabel = (position: CardPosition): string => positionLabelMap[position];
-
-export const getSpreadLabel = (spreadType: SpreadType): string => spreadLabelMap[spreadType];
 
 export const buildReadingSummary = (drawnCards: DrawnCard[], spreadType: SpreadType): string => {
     if (drawnCards.length === 0) {

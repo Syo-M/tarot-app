@@ -1,7 +1,6 @@
 export type SpreadType = 'single' | 'two' | 'three' | 'four' | 'celticCross';
 
 export type DeckType = 'major' | 'minor' | 'mixed';
-export type DeckMode = DeckType;
 
 export type ResultMode = 'full' | 'summary';
 export type AppScreen = 'home' | 'shuffle' | 'result';
@@ -63,12 +62,13 @@ export interface ReadingState {
 export interface DeckDefinition {
     id: DeckType;
     label: string;
-    description?: string;
+    description: string;
+    cardCount: number;
 }
 
 export interface SpreadDefinition {
     id: SpreadType;
     label: string;
-    description?: string;
+    description: string;
     cardCount: number;
 }

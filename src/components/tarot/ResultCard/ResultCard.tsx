@@ -1,16 +1,11 @@
 import type { DrawnCard } from '../../../types/tarot';
-import { getPositionLabel } from '../../../utils/readingSummary';
+import { getOrientationLabel, getPositionLabel } from '../../../constants/labels';
 import { TarotCardView } from '../TarotCardView/TarotCardView';
 import styles from './ResultCard.module.css';
 
 interface ResultCardProps {
   drawnCard: DrawnCard;
 }
-
-const orientationLabelMap = {
-  upright: '正位置',
-  reversed: '逆位置',
-} as const;
 
 export const ResultCard = ({ drawnCard }: ResultCardProps) => {
   const meaning = drawnCard.orientation === 'upright'
@@ -24,7 +19,7 @@ export const ResultCard = ({ drawnCard }: ResultCardProps) => {
       </div>
       <div className={styles.content}>
         <p className={styles.meta}>
-          {getPositionLabel(drawnCard.position)} ・ {orientationLabelMap[drawnCard.orientation]}
+          {getPositionLabel(drawnCard.position)} ・ {getOrientationLabel(drawnCard.orientation)}
         </p>
         <h3 className={styles.title}>{drawnCard.card.nameJa}</h3>
         <p className={styles.subtitle}>{drawnCard.card.nameEn}</p>
