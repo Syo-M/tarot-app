@@ -1,3 +1,6 @@
+// For more info, see https://github.com/storybookjs/eslint-plugin-storybook#configuration-flat-config-format
+import storybook from "eslint-plugin-storybook";
+
 // Starter ESLint flat config — copy to eslint.config.js. Encodes the rule→tool mapping
 // from the `tooling` skill. Install the referenced plugins, pin versions, and adapt the
 // `files`/`ignores` and framework presets (next / astro) to the project.
@@ -65,6 +68,7 @@ export default tseslint.config(
     files: ['**/*.test.*', '**/*.spec.*'],
     rules: { '@typescript-eslint/no-unsafe-assignment': 'off' },
   },
+  storybook.configs["flat/recommended"]
 );
 
 // Also wire (not shown): eslint-plugin-testing-library, eslint-plugin-playwright,

@@ -11,3 +11,6 @@ fable_skills/
 # Claude Code ローカル設定・エージェントメモリ
 .claude/settings.local.json
 .claude/agent-memory-local/
+
+*storybook.log
+storybook-static
